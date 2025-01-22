@@ -1,4 +1,4 @@
-const express = require('express');
+import express from 'express'
 const router = express.Router();
 
 var clickedUsers = 0;
@@ -10,4 +10,4 @@ router.get('/api/ping', async(req, res) => {
     });
 });
 
-module.exports = router;
+export default router;

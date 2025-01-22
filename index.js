@@ -1,13 +1,15 @@
-const express = require('express');
-const app = express();
-const appRouter = require('./router/app.js');
+import { connect } from './database/database.js'
+import express from 'express'
+import appRouter from './router/app.js';
 
-var visitedUsers = 0;
+const app = express();
 
 app.listen(5000, () => console.log('listening on port ' + 5000));
 app.use(express.static('public'));
 app.use(express.json({ limit: '2mb' }));
 app.use(appRouter);
+connect();
+
 console.log("Ready")
 
 process.on('unhandledRejection', (reason, p) => {

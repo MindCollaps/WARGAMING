@@ -1,0 +1,2 @@
+echo setting up box
+
