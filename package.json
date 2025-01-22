@@ -1,0 +1,23 @@
+{
+  "name": "wargaming",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/MindCollaps/WARGAMING#readme",
+  "bugs": {
+    "url": "https://github.com/MindCollaps/WARGAMING/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MindCollaps/WARGAMING.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
