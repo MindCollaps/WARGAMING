@@ -1,2 +1,2 @@
-echo setting up box
+echo setting up box...
 
