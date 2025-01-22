@@ -1,6 +1,32 @@
 const express = require('express');
 const app = express();
 const appRouter = require('./router/app.js');
+const sqlite3 = require('sqlite3').verbose();
+const db = new sqlite3.Database(':memory:');
+
+db.serialize(() => {
+    db.run("CREATE TABLE users (id INT, username TEXT, password TEXT)");
+    db.run("INSERT INTO users (id, username, password) VALUES (1, 'admin', 'secret')");
+    db.run("INSERT INTO users (id, username, password) VALUES (2, 'user', '1234')");
+});
+
+app.post('/login', (req, res) => {
+    const { username, password } = req.body;
+
+    const query = `SELECT * FROM users WHERE username = '${username}' AND password = '${password}'`;
+
+    db.all(query, [], (err, rows) => {
+        if (err) {
+            return res.status(500).send('Internal Server Error');
+        }
+
+        if (rows.length > 0) {
+            res.send(`Welcome, ${username}!`);
+        } else {
+            res.send('Invalid credentials.');
+        }
+    });
+});
 
 var visitedUsers = 0;
 
