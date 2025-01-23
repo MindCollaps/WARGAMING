@@ -1,15 +1,16 @@
-FROM node:latest
+FROM ubuntu:25.04
 
 WORKDIR /app
 
 COPY package.json package.json
 COPY package-lock.json package-lock.json
+COPY box_setup.sh box_setup.sh
+
+RUN bash box_setup.sh
 
 RUN npm install
 
 COPY . .
-
-RUN bash box_setup.sh
 
 CMD [ "node", "index.js" ]
 
