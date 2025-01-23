@@ -1,7 +1,9 @@
 import express from 'express'
+import admin from './admin_api.js';
+
 const router = express.Router();
 
-var clickedUsers = 0;
+router.use("/api/admin", admin)
 
 router.get('/api/ping', async(req, res) => {
     res.json({
