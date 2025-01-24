@@ -1,12 +1,9 @@
-FROM ubuntu:25.04
+FROM node:20-alpine
 
 WORKDIR /app
 
 COPY package.json package.json
 COPY package-lock.json package-lock.json
-COPY box_setup.sh box_setup.sh
-
-RUN bash box_setup.sh
 
 RUN npm install
 
