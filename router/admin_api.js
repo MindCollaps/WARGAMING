@@ -82,7 +82,7 @@ router.post('/upload_background_image', upload.single('image'), async (req, res)
                 return res.status(500).json({
                     status: '500',
                     response: "Conversion failed - output file not found",
-                    error: stdout
+                    error: stdout.trim().split('\n'),
                 });
             } else {
                 // Respond with success and the file pathof the uploaded image
