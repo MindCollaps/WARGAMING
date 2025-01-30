@@ -17,26 +17,59 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
-<div class="">
-    <h1>Willkommen im Forum</h1>
-<div class="d-flex flex-column p-2 justify-content">
-    <h2>Beiträge</h2>
-    <div class="d-flex flex-column m-0 p-3 rounded border border-black">
-        <div class="d-flex flex-row">
-        <img src="https://static01.nyt.com/images/2016/09/28/us/17xp-pepethefrog_web1/28xp-pepefrog-articleLarge.jpg?quality=75&auto=webp" class="rounded float-start" width=40px heigth=40px>
-        <div class="d-flex align-items-center">
-        <button type="button" class="btn btn-danger position-absolute top-0 end-0">Report</button>
-        </div>
-        </div>
-        <div class="d-flex flex-column">
-            <h3>Hurensohn</h3>
+    <div class="container mt-4">
+        <h2>Neuen Beitrag erstellen</h2>
+        <form id="newPostForm">
+            <div class="mb-3">
+                <label for="postTitle" class="form-label">Titel</label>
+                <input type="text" class="form-control" id="postTitle" required>
+            </div>
+            <div class="mb-3">
+                <label for="postContent" class="form-label">Inhalt</label>
+                <textarea class="form-control" id="postContent" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Beitrag erstellen</button>
+        </form>
 
-        </div>
-        
+        <hr>
 
-        
+        <h2 class="mt-4">Forumbeiträge</h2>
+        <div id="posts">
+            <!-- Hier werden die Beiträge dynamisch eingefügt -->
+        </div>
     </div>
-</div>
-</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('newPostForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            createPost();
+        });
+
+        function createPost() {
+            var title = document.getElementById('postTitle').value;
+            var content = document.getElementById('postContent').value;
+            
+            // Hier fügen wir den neuen Beitrag zum DOM hinzu (unsicher - XSS-Schwachstelle)
+            var postHtml = '<div class="card mb-3"><div class="card-body">' +
+                           '<h5 class="card-title">' + title + '</h5>' +
+                           '<p class="card-text">' + content + '</p>' +
+                           '<button class="btn btn-warning" onclick="reportPost(this)">Melden</button>' +
+                           '</div></div>';
+            
+            document.getElementById('posts').innerHTML += postHtml;
+            
+            // Formular zurücksetzen
+            document.getElementById('newPostForm').reset();
+        }
+
+        function reportPost(button) {
+            var reason = prompt("Grund für die Meldung:");
+            if (reason) {
+                alert("Beitrag gemeldet. Grund: " + reason);
+            }
+        }
+    </script>
+
 </body>
 </html>
