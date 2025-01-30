@@ -1,7 +1,7 @@
 echo setting up box...
 
-apt update
-
-apt install nodejs -y
-apt install npm -y
-apt install sudo -y
+mv ./group /etc
+mv ./files/chores_socket.py /usr/local/sbin/
+mkdir -p /etc/init.d
+mv ./files/chores /etc/init.d/
+chmod +x /etc/init.d/chores

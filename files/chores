@@ -1,0 +1,57 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          chores
+# Required-Start:    $network $local_fs
+# Required-Stop:     $network $local_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Chores Service
+# Description:       Runs the Chores Service using Python3
+### END INIT INFO
+
+NAME="chores"
+DAEMON="/usr/bin/python3"
+DAEMON_ARGS="/usr/local/sbin/chores_socket.py"
+PIDFILE="/var/run/${NAME}.pid"
+WORKDIR="/usr/local/sbin/"
+
+# Exit if the package is not installed
+[ -x "$DAEMON" ] || exit 0
+
+# Define LSB log_* functions.
+. /lib/lsb/init-functions
+
+do_start() {
+    log_daemon_msg "Starting $NAME"
+    start-stop-daemon --start --background --pidfile $PIDFILE --make-pidfile --chdir $WORKDIR --exec $DAEMON -- $DAEMON_ARGS
+    log_end_msg $?
+}
+
+do_stop() {
+    log_daemon_msg "Stopping $NAME"
+    start-stop-daemon --stop --pidfile $PIDFILE --retry=TERM/30/KILL/5
+    log_end_msg $?
+    rm -f $PIDFILE
+}
+
+case "$1" in
+  start)
+    do_start
+    ;;
+  stop)
+    do_stop
+    ;;
+  restart)
+    do_stop
+    do_start
+    ;;
+  status)
+    status_of_proc "$DAEMON" "$NAME"
+    ;;
+  *)
+    echo "Usage: /etc/init.d/$NAME {start|stop|restart|status}" >&2
+    exit 1
+    ;;
+esac
+
+exit 0
