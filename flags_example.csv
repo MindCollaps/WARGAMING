@@ -1,0 +1,7 @@
+name	description	category	value	type	state	max_attempts	flags	tags	hints	type_data
+Challengename 1	Kurzer Beschreibungstext	Gruppenname/Teamname	150	standard	visible	0	erwitaa{flag_mds5_or_sha1_or_text}		Hint 1, Hint 2, Hint 3	
+Challengename 2	Kurzer Beschreibungstext	Gruppenname/Teamname	250	standard	visible	0	erwitaa{flag_mds5_or_sha1_or_text}		Hint 1, Hint 2, Hint 3	
+Challengename  3	Kurzer Beschreibungstext	Gruppenname/Teamname	150	standard	visible	0	erwitaa{flag_mds5_or_sha1_or_text}		Hint 1, Hint 2, Hint 3	
+Challengename  4	Kurzer Beschreibungstext	Gruppenname/Teamname	500	standard	visible	0	erwitaa{flag_mds5_or_sha1_or_text}		Hint 1, Hint 2, Hint 3	
+Challengename  m	Kurzer Beschreibungstext	Gruppenname/Teamname	400	standard	visible	0	erwitaa{flag_mds5_or_sha1_or_text}		Hint 1, Hint 2, Hint 3	
+Challengename  n	Kurzer Beschreibungstext	Gruppenname/Teamname	1000	standard	visible	0	erwitaa{flag_mds5_or_sha1_or_text}		Hint 1, Hint 2, Hint 3	

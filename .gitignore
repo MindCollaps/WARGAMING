@@ -128,5 +128,6 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
-/needrestart_build
-.deb
+.db
+/tmp
+flags.csv
