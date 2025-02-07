@@ -65,11 +65,16 @@ router.post('/upload_background_image', upload.single('image'), async (req, res)
     exec(command, (err, stdout, stderr) => {
         if (err) {
             console.error("Fehler bei der Verarbeitung:", err);
-            return res.status(500).send("Fehler bei der Verarbeitung");
+            return res.status(500).json(
+                {
+                    status: '500',
+                    message: "Fehler bei der Verarbeitung",
+                    error: err
+                }
+            )
         }
     
         console.log("stdout:", stdout);
-        // console.log("stderr:", stderr);
 
         // Check if converted file exists
         fs.access(outputPath, fs.constants.F_OK, (err) => {
@@ -81,15 +86,14 @@ router.post('/upload_background_image', upload.single('image'), async (req, res)
             if (err) {
                 return res.status(500).json({
                     status: '500',
-                    response: "Conversion failed - output file not found",
+                    message: "Conversion failed - output file not found",
                     error: stdout.trim().split('\n'),
                 });
             } else {
                 // Respond with success and the file pathof the uploaded image
                 res.json({
                     status: '200',
-                    response: "success",
-                    msg: "File uploaded and converted",
+                    message: "File uploaded and converted",
                     path: "/assets/background/" + newFilename
                 });
             }
