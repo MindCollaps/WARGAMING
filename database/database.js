@@ -22,6 +22,8 @@ db.serialize(() => {
     db.run("INSERT OR IGNORE INTO users (id, username, password) VALUES (1, 'admin', 'secret')");
     db.run("INSERT OR IGNORE INTO users (id, username, password) VALUES (2, 'user', '1234')");
 
+/*
+    // Testausgabe
     db.all("SELECT * FROM users", (err, rows) => {
         if (err) {
             console.error("Error fetching data:", err.message);
@@ -30,6 +32,35 @@ db.serialize(() => {
             console.log(rows);
         }
     });
+*/
+
+    // Table für Files
+    db.run(`CREATE TABLE IF NOT EXISTS files (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        filename TEXT NOT NULL,
+        filepath TEXT NOT NULL
+    )`, (err) => {
+        if (err) {
+            console.error("Error creating files table:", err.message);
+        }
+    });
+
+    db.run(`INSERT OR IGNORE INTO files (id, filename, filepath) VALUES (1, 'test', 'test')`);
+    db.run(`INSERT OR IGNORE INTO files (id, filename, filepath) VALUES (2, 'schatzsuche.txt', 'blabla')`);
+
+/*  // Testausgabe
+    db.all("SELECT * FROM files", (err, rows) => {
+        if (err) {
+            console.error("Error fetching data:", err.message);
+        } else {
+            console.log("Database contents:");
+            console.log(rows);
+        }
+    });
+
+    console.log("Tables initialized.");
+*/
 });
+
 
 export { db };

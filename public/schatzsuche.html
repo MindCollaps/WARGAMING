@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Froschpiraten Schatzsuche</title>
+    <style>
+        body {
+        
+            font-family: 'Arial', sans-serif;
+            background-color: #1d120a;
+            text-align: center;
+            margin-top: 150px;
+        }
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:  url("./assets/background/schatzsuche.jpg") no-repeat center center/cover;
+            opacity: 0.5; 
+            z-index: -1;
+        }
+        header {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+        }
+        header img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        header h1 {
+            font-size: 24px;
+            color: rgb(255, 255, 255);
+        }
+        .question {
+            background-color: #5a462f;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px auto;
+            max-width: 1000px; 
+            width: 90%;
+            text-align: left
+        }
+        .answer-buttons {
+            margin-top: 20px;
+        }
+        button {
+            background-color: #3e2d1a;
+            color: white;
+            padding: 15px 25px;
+            font-size: 18px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        button:hover {
+            background-color: #5e4b35;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src=".\assets\background\logo.png" alt="Logo">
+        <h1>Pentest-Pepe </h1>
+    </header>
+
+    <div class="question">
+        <p>Du bist ein tapferer Froschpirat auf hoher See, und plötzlich findest du eine Schatzkiste, die vom Meeresgott persönlich versiegelt wurde! Doch bevor du sie öffnen kannst, spricht eine sprechende Krabbe zu dir:</p>
+        <p>„Wenn du den Schatz öffnest, musst du dich entscheiden:</p>
+        <p>1. Du nimmst den Schatz für dich alleine, egal, wie viele hungrige, armreiche Piratenfreunde du hast, die ebenfalls auf den Schatz warten!</p>
+        <p>2. Du teilst den Schatz gerecht mit allen deinen Piratenfreunden, auch wenn du dadurch ein paar deiner kostbaren Goldmünzen verlieren würdest.“</p>
+        <p>Was tust du, tapferer Froschpirat?</p>
+    </div>
+
+    <div class="answer-buttons">
+        <button onclick="window.location.href='see.html'">Ich behalte den Schatz für mich allein! (66)</button>
+        <button onclick="window.location.href='see.html'">Ich teile den Schatz mit meinen Freunden! (67)</button>
+    </div>
+
+</body>
+</html>

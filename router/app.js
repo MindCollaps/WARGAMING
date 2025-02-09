@@ -13,42 +13,6 @@ router.get('/api/ping', async(req, res) => {
     });
 });
 
-/* 
-router.post('/register', async (req, res) => {
-    const { username, password } = req.body;
-
-    if (!username || !password) {
-        return res.status(400).json({
-            status: '400',
-            response: 'Username and password are required.'
-        });
-    }
-
-
-    const query = `INSERT INTO users (username, password) VALUES (?, ?)`;
-    db.run(query, [username, password], (err) => {
-        if (err) {
-            if (err.code === 'SQLITE_CONSTRAINT') {
-                return res.status(400).json({
-                    status: '400',
-                    response: 'Username already exists.'
-                });
-            }
-            return res.status(500).json({
-                status: '500',
-                response: 'Database error.',
-                error: err.message
-            });
-        }
-
-        res.status(201).json({
-            status: '201',
-            response: 'User registered successfully.'
-        });
-    });
-});
-*/
-
 // Benutzerlogin
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;

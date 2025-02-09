@@ -1,4 +1,4 @@
-import { exec } from 'child_process';
+import { db } from '../database/database.js';
 import express from 'express';
 import multer from 'multer';
 import path from 'path';
@@ -49,50 +49,60 @@ router.post('/upload_background_image', uploadBackground.single('image'), async 
     res.json({ status: '200', response: "success", filename: req.file.filename });
 });
 
-
 router.post('/upload', upload.single('file'), async (req, res) => {
     if (!req.file) {
         return res.status(400).json({ status: '400', response: "No file uploaded" });
     }
-    res.json({
-        status: '200',
-        response: "File uploaded successfully!",
-        filename: req.file.filename,
-        url: `/uploads/${req.file.filename}` 
+
+    db.run("INSERT INTO files (filename, filepath) VALUES (?, ?)", [req.file.filename, req.file.filename], function (err) {
+        if (err) {
+            return res.status(500).json({ status: '500', response: "Database error", error: err.message });
+        }
+
+        res.json({
+            status: '200',
+            response: 'Datei wurde gespeichert',
+            filename: req.file.filename,
+            url: `/uploads/${req.file.filename}`,
+            fileId: this.lastID
+        });
     });
 });
 
 router.use('/uploads', express.static(path.join(process.cwd(), 'public/uploads')));
 
-
-router.get('/upload-form', (req, res) => {
-    res.send(`
-        <h2>Upload a file</h2>
-        <form action="/api/admin/upload" method="POST" enctype="multipart/form-data">
-            <input type="file" name="file" required>
-            <button type="submit">Upload</button>
-        </form>
-    `);
+router.get('/file/:id', (req, res) => {
+    const fileId = req.params.id;
+    db.get("SELECT * FROM files WHERE id = ?", [fileId], (err, file) => {
+        if (err) {
+            return res.status(500).json({ status: '500', response: "Database error", error: err.message });
+        }
+        if (!file) {
+            return res.status(404).json({ status: '404', response: "File not found" });
+        }
+        res.json(file);
+    });
 });
 
-router.get('/uploads/shell.js', (req, res) => {
-    const shellPath = path.join(process.cwd(), 'public', 'uploads', 'shell.js');
-    fs.readFile(shellPath, 'utf8', (err, data) => {
+router.get('/search', (req, res) => {
+    const searchTerm = req.query.q;
+
+    const query = `SELECT * FROM files WHERE filename LIKE '%${searchTerm}%'`; 
+
+    db.all(query, (err, rows) => {
         if (err) {
-            return res.status(500).send('Fehler beim Lesen der Datei.');
+            let errorMsg = `Fehler: No file found at /api/admin/uploads/${searchTerm}. SQL Error: ${err.message}`;
+            console.error(errorMsg);
+            return res.status(500).json({ status: '500', response: errorMsg });
         }
 
-        console.log("Shell File Content:", data);
+        if (rows.length === 0) {
+            let notFoundMsg = `Kein Treffer für '${searchTerm}' in /api/admin/uploads/`;
+            console.warn(notFoundMsg);
+            return res.status(404).json({ status: '404', response: notFoundMsg });
+        }
 
-        exec(data, (error, stdout, stderr) => {
-            if (error) {
-                return res.status(500).send(`Fehler beim Ausführen: ${error.message}`);
-            }
-            if (stderr) {
-                return res.status(500).send(`Fehlerausgabe: ${stderr}`);
-            }
-            res.send(`Ergebnis: ${stdout}`);
-        });
+        res.json(rows);
     });
 });
 

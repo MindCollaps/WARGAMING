@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Froschpiraten Schatzsuche</title>
+    <style>
+        body {
+        
+            font-family: 'Arial', sans-serif;
+            background-color: #1d120a;
+            text-align: center;
+            margin-top: 150px;
+        }
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:  url("./assets/background/schatzsuche.jpg") no-repeat center center/cover;
+            opacity: 0.5; 
+            z-index: -1;
+        }
+        header {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+        }
+        header img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        header h1 {
+            font-size: 24px;
+            color: rgb(255, 255, 255);
+        }
+        .question {
+            background-color: #5a462f;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px auto;
+            max-width: 1000px; 
+            width: 90%;
+            text-align: left
+        }
+        .answer-buttons {
+            margin-top: 20px;
+        }
+        button {
+            background-color: #3e2d1a;
+            color: white;
+            padding: 15px 25px;
+            font-size: 18px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        button:hover {
+            background-color: #5e4b35;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src=".\assets\background\logo.png" alt="Logo">
+        <h1>Pentest-Pepe </h1>
+    </header>
+
+    <div class="question">
+        <p>Du segelst weiter, als ein mächtiger Sturm aufzieht. Ein riesiger Kraken erscheint und blockiert deinen Weg! Du musst schnell entscheiden:</p>
+        <p>Kämpfen: Du ziehst dein Schwert und versuchst, den Kraken zu besiegen, um deinen Weg fortzusetzen.</p>
+        <p>Fliehen: Du bittest deine Piratenfreunde um Hilfe und setzt die Segel, um den Kraken zu entkommen.</p>
+        <p>Was wirst du tun, tapferer Froschpirat?</p>
+    </div>
+
+    <div class="answer-buttons">
+        <button onclick="window.location.href='kompass.html'">Ich kämpfe gegen den Kraken! (6f)</button>
+        <button onclick="window.location.href='kompass.html'">Ich fliehe vor dem Kraken! (70)</button>
+    </div>
+
+</body>
+</html>

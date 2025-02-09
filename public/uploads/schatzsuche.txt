@@ -1,0 +1,28 @@
+Die Regeln der Froschpiraten-Schatzsuche
+
+Hört her, ihr tapferen Piraten,
+Die Froschpiraten sind auf Kurs,
+Die See, sie ruft uns in den Weiten,
+Der Schatz – er wartet, das ist kein Scherz!
+
+Doch halt, bevor wir ablegen,
+Gibt’s eine Frage, die du musst beantworten,
+Wählst du klug, wirst du den Weg erlangen,
+Doch wählst du schlecht, wirst du dich verirren, o ho!
+
+Denn jede Frage hat zwei Wege,
+Die eine führt zum Glück, die andere zur Not,
+Doch merk dir gut, was du entschiedest,
+Ein Schlüsselwort versteckt sich in jedem Boot!
+
+Jetzt, oh Pirat, sei nicht zu schnell,
+Denk nach, was du wählst, und vergiss nicht das Ziel,
+Die Schlüsselworte, sie sind der Pfad,
+Der zum Schatz führt, auf das er dir gefällt!
+
+Denn wer den richtigen Pfad wählt,
+Der wird finden, was er begehrt,
+Doch der Pirat, der unklug handelt,
+Der könnte für immer verloren sein, auf hoher See!
+
+Start http://localhost:5000/schatzsuche.html
