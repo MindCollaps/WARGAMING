@@ -51,7 +51,7 @@
             var content = document.getElementById('postContent').value;
             
             // Hier fügen wir den neuen Beitrag zum DOM hinzu (unsicher - XSS-Schwachstelle)
-            var postHtml = '<div class="card mb-3"><div class="card-body">' +
+            var postHtml = '<div class="card mb-3"><img src="https://static01.nyt.com/images/2016/09/28/us/17xp-pepethefrog_web1/28xp-pepefrog-articleLarge.jpg?quality=75&auto=webp" class="card-img-top" alt="Pepe Bild"><div class="card-body">' +
                            '<h5 class="card-title">' + title + '</h5>' +
                            '<p class="card-text">' + content + '</p>' +
                            '<button class="btn btn-warning" onclick="reportPost(this)">Melden</button>' +
