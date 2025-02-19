@@ -131,3 +131,4 @@ dist
 .db
 /tmp
 flags.csv
+public/assets/background/*
