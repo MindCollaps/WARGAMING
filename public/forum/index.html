@@ -16,8 +16,10 @@
         integrity="sha512-z4OUqw38qNLpn1libAN9BsoDx6nbNFio5lA6CuTp9NlK83b89hgyCVq+N5FdBJptINztxn1Z3SaKSKUS5UP60Q=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    
 </head>
 <body>
+    
     <div class="container mt-4" id="app">
         <h2>Neuen Beitrag erstellen</h2>
         <form id="newPostForm" @submit.prevent="createPost">
@@ -40,61 +42,35 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ post.title }}</h5>
                     <p class="card-text">{{ post.content }}</p>
-                    <button class="btn btn-warning" @click="reportPost(post)">Melden</button>
+                    <!-- Report Button -->
+                    <button class="btn btn-warning" @click="openReportModal(post)">Melden</button>
+                    
+                    <!-- Report Modal -->
+                    <div class="modal fade" :id="'reportModal' + post.id" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Beitrag melden</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="reportReason">Grund der Meldung:</label>
+                                        <textarea class="form-control" v-model="reportReason" rows="3"></textarea>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+                                    <button type="button" class="btn btn-primary" @click="reportPost(post)">Melden</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
         </div>
     </div>
 
-    <script>
-        const { createApp, ref } = Vue;
-
-        createApp({
-            setup() {
-                const posts = ref([]);
-                const title = ref('');
-                const content = ref('');
-                getPosts();
-
-                async function getPosts() {
-                    const response = await fetch('/api/forum/posts');
-                    const data = await response.json();
-                    posts.value = data.response;
-                }
-
-                async function createPost(title, content) {
-                    body = JSON.stringify({
-                        "title": title.value,
-                        "content": content.value
-                    })
-
-                    const response = await fetch('/api/forum/posts/new', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: body
-                    });
-
-                    if (response.ok) {
-                        await getPosts();
-                        title.value = '';
-                        content.value = '';
-                    }
-                    
-                }
-
-                return {
-                    posts,
-                    title,
-                    content,
-                    createPost,
-                }
-            }
-
-        }).mount("#app");
-
-    </script>
-
+    <script src="./forum.js"></script>
 
 </body>
 </html>
