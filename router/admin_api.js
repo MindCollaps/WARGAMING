@@ -1,10 +1,9 @@
 import express from 'express';
 import multer from 'multer';
-import path from 'path';
 import fs from 'fs';
-import { url } from 'inspector';
 
 const router = express.Router();
+
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
