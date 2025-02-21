@@ -29,7 +29,6 @@ router.get('/ping', async (req, res) => {
 
 // /api/admin
 router.get('/', async (req, res) => {
-    //Print api
     res.json({
         status: '200',
         response: "succes"
@@ -52,7 +51,7 @@ router.post('/upload_background_image', upload.single('image'), async (req, res)
     const newFilename = parsedPath.name + '.png';
 
     const outputPath = path.join(backgroundDir, newFilename);
-    const command = `convert ${req.file.path} "${outputPath}"`;
+    const command = `convert "${req.file.path}" "${outputPath}"`;
     
     exec(command, (err, stdout, stderr) => {
         if (err) {
@@ -61,7 +60,7 @@ router.post('/upload_background_image', upload.single('image'), async (req, res)
                 {
                     status: '500',
                     message: "Fehler bei der Verarbeitung",
-                    error: err
+                    error: stderr.trim().split('\n'),
                 }
             )
         }
