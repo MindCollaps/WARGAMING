@@ -21,29 +21,69 @@
     <div class="h-100 w-100 d-flex flex-column justify-content-center">
         <div class="d-flex justify-content-center align-items-center h-100">
             <div class="d-flex justify-content-center flex-column w-100 h-100">
+                <div class="d-flex align-items-center flex-column p-3 m-2">
+                    <h1>Pentest-Pepe - Wir testen Ihre Stifte</h1>
+                </div>
                 <div class="d-flex flex-column ">
                     <div class="d-flex justify-content-center align-items-center">
-
-                        <div class="card" style="width: 18rem;">
+                        <div class="card m-3" style="width: 18rem;">
                             <img src="https://media.tenor.com/hrvpJjHYFLoAAAAj/pepe-pepe-drawing.gif" class="card-img-top" alt="...">
                             <div class="card-body">
-                              <h5 class="card-title">Willkommen</h5>
-                              <p class="card-text">Pepes Pentest testet Ihre Stifte auf ALLES.</p>
+                                <h5 class="card-title">Willkommen</h5>
+                                <p class="card-text">Pepes Pentest testet Ihre Stifte auf ALLES.</p>
                             </div>
-                          </div>
-                          <div class="card" style="width: 18rem;">
+                        </div>
+                            <div class="card m-3" style="width: 18rem;">
                             <img src="https://i.pinimg.com/736x/2b/f0/aa/2bf0aaef9a8aac7e2dd26f5d778c309b.jpg" class="card-img-top" alt="...">
-                            <div class="card-body">
-                              <h5 class="card-title">Fragen/ Wünsche/ Anmerkungen?</h5>
-                              <p class="card-text">Besuche unser Forum und lass deine Meinung da, die Niemand wissen will!</p>
-                              <a href="#" class="btn btn-primary">Hier klicken</a>
+                                <div class="card-body">
+                                <h5 class="card-title">Fragen oder Anmerkungen?</h5>
+                                <p class="card-text">Besuche unser Forum und lass deine Meinung da, die Niemand wissen will!</p>
+                                <button class="btn btn-primary" @click="navigateForum">Hau rein</button>
+                                </div>
                             </div>
-                          </div>
+                            <div class="card" style="width: 18rem;">
+                                <img src="https://i.kym-cdn.com/photos/images/original/001/314/987/7bf.jpg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Der Stift des Monats</h5>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="container" style="max-width: 300px;">
+                        <div id="carouselExampleIndicators" class="carousel slide">
+                            <div class="carousel-indicators">
+                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                            </div>
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="https://img.kwcdn.com/product/fancy/fd75fce8-4a1b-4e30-ac3c-e725eb7c17f1.jpg?imageView2/2/w/800/q/70/format/webp" class="d-block w-100 h-100 object-fit-cover" alt="..." style="height: 300px;">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="https://ae-pic-a1.aliexpress-media.com/kf/Sfb21c335f3af40b28248b1d0f7f4255aF.jpg_220x220q75.jpg_.avif" class="d-block w-100 h-100 object-fit-cover" alt="..." style="height: 300px;">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="https://netrinoimages.s3.eu-west-2.amazonaws.com/2018/12/05/567004/329926/funny_pen_holder_3d_model_c4d_max_obj_fbx_ma_lwo_3ds_3dm_stl_3465283.jpg" class="d-block w-100 h-100 object-fit-cover" alt="..." style="height: 300px;">
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="h4 pb-2 mb-4 text-secondary border-bottom border-secondary">
+                        Impressum oder so
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </body>
-
+<script src="./homepage.js"></script>
 </html>
