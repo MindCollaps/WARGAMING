@@ -1,14 +1,16 @@
 import { db } from '../database/database.js';
+import { checkRole } from './app.js';
+import { authenticateToken } from './app.js';
 import express from 'express';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 
+
 const router = express.Router();
 
 fs.mkdirSync("./public/assets/background", { recursive: true });
 fs.mkdirSync("./public/uploads", { recursive: true });
-
 
 const backgroundStorage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -91,13 +93,13 @@ router.get('/search', (req, res) => {
 
     db.all(query, (err, rows) => {
         if (err) {
-            let errorMsg = `Fehler: No file found at /api/admin/uploads/${searchTerm}. SQL Error: ${err.message}`;
+            let errorMsg = `Fehler: No file found at /uploads/${searchTerm}. SQL Error: ${err.message}`;
             console.error(errorMsg);
             return res.status(500).json({ status: '500', response: errorMsg });
         }
 
         if (rows.length === 0) {
-            let notFoundMsg = `Kein Treffer für '${searchTerm}' in /api/admin/uploads/`;
+            let notFoundMsg = `Kein Treffer für '${searchTerm}' in /uploads/`;
             console.warn(notFoundMsg);
             return res.status(404).json({ status: '404', response: notFoundMsg });
         }
@@ -105,5 +107,6 @@ router.get('/search', (req, res) => {
         res.json(rows);
     });
 });
+
 
 export default router;
