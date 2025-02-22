@@ -1,87 +1,100 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Piratischer Rat - Überdenke deine Entscheidungen</title>
-    <style>
-        body {
-            background: url("./assets/background/pruefung.webp") no-repeat center center/cover;
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        header {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            display: flex;
-            align-items: center;
-        }
-        header img {
-            height: 40px;
-            margin-right: 10px;
-        }
-        header h1 {
-            font-size: 24px;
-            color: rgb(255, 255, 255);
-        }
-        .container {
-            background-color: #2c3e508b;
-            color: white;
-            padding: 30px;
-            border-radius: 10px;
-            max-width: 600px;
-            text-align: center;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            color: #f39c12;
-            font-size: 28px;
-            margin-bottom: 20px;
-        }
-        p {
-            font-size: 18px;
-            line-height: 1.5;
-        }
-        .pirate-image {
-            margin-top: 20px;
-            width: 150px;
-        }
-        button {
-            background-color: #f39c12;
-            color: white;
-            padding: 15px 30px;
-            font-size: 18px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-        button:hover {
-            background-color: #e67e22;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Schatzsuche</title>
+<link rel="icon" href="/images/logo.png">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #1d120a;
+    text-align: center;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; 
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:  url("/images/schatzsuche.jpg") no-repeat center center/cover;
+    opacity: 0.5; 
+    z-index: -1;
+}
+header {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    align-items: center;
+}
+header img {
+    height: 40px;
+    margin-right: 10px;
+}
+header h1 {
+    font-size: 24px;
+    color: rgb(255, 255, 255);
+}
+.container {
+    background: rgb(255, 255, 255);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgb(0, 0, 0);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.816);
+    width: 70%;
+    max-width: 600px;
+    animation: fadeIn 1s ease-in-out;
+    text-align: left;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+</style>
 </head>
 <body>
-    <header>
-        <img src=".\assets\background\logo.png" alt="Logo">
-        <h1>Pentest-Pepe </h1>
-    </header>
+    <div class="w3-top">
+        <div class="w3-bar w3-white w3-card" id="myNavbar">
+          <a href="/" class="w3-bar-item w3-button w3-wide">
+            <img src="/images/logo.png" alt="Logo" style="height:35px; vertical-align:middle;"> 
+               PEN-TEST PEPE
+          </a>
+          <!-- Right-sided navbar links -->
+          <div class="w3-right w3-hide-small">
+            <a href="/login.html" class="w3-bar-item w3-button" style="padding-top: 15px; padding-right: 20px;"><i class="fa fa-comments"></i> Community</a>
+          </div>
+        </div>
+    </div>
 
     <div class="container">
         <h1>Ahoy, tapferer Froschpirat!</h1>
         <p>Bevor du deinen Schatz suchst, denk noch einmal nach!</p>
         <p>Hast du die richtigen Antworten gewählt? Wirst du den richtigen Pfad finden, oder bist du von deiner Route abgekommen?</p>
         <p>Überdenke deine Lösungen und achte darauf, dass jede Entscheidung dich näher zum Ziel führt!</p>
-
-        
-        <button onclick="window.location.href='index.html'">Überdenke deine Entscheidungen!</button>
-    </div>
+        <button class="w3-button" onclick="window.location.href='schatzsuche.html'">
+            <i class="fa fa-arrow-circle-o-left"></i> Zurück zum Start
+        </button>
 
 </body>
 </html>

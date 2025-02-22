@@ -25,4 +25,4 @@ Der wird finden, was er begehrt,
 Doch der Pirat, der unklug handelt,
 Der könnte für immer verloren sein, auf hoher See!
 
-Start http://localhost:5000/schatzsuche.html
+Start: /schatzsuche.html

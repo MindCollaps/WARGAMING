@@ -1,76 +1,106 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Froschpiraten Schatzsuche</title>
-    <style>
-        body {
-        
-            font-family: 'Arial', sans-serif;
-            background-color: #1d120a;
-            text-align: center;
-            margin-top: 150px;
-        }
-        body::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background:  url("./assets/background/schatzsuche.jpg") no-repeat center center/cover;
-            opacity: 0.5; 
-            z-index: -1;
-        }
-        header {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            display: flex;
-            align-items: center;
-        }
-        header img {
-            height: 40px;
-            margin-right: 10px;
-        }
-        header h1 {
-            font-size: 24px;
-            color: rgb(255, 255, 255);
-        }
-        .question {
-            background-color: #5a462f;
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px auto;
-            max-width: 1000px; 
-            width: 90%;
-            text-align: left
-        }
-        .answer-buttons {
-            margin-top: 20px;
-        }
-        button {
-            background-color: #3e2d1a;
-            color: white;
-            padding: 15px 25px;
-            font-size: 18px;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            margin: 10px;
-        }
-        button:hover {
-            background-color: #5e4b35;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Schatzsuche</title>
+<link rel="icon" href="/images/logo.png">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<style>
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #1d120a;
+    text-align: center;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; 
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:  url("/images/schatzsuche.jpg") no-repeat center center/cover;
+    opacity: 0.5; 
+    z-index: -1;
+}
+header {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    align-items: center;
+}
+header img {
+    height: 40px;
+    margin-right: 10px;
+}
+header h1 {
+    font-size: 24px;
+    color: rgb(255, 255, 255);
+}
+.question {
+    background: rgb(255, 255, 255);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgb(0, 0, 0);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.816);
+    width: 70%;
+    max-width: 600px;
+    animation: fadeIn 1s ease-in-out;
+    text-align: left;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.answer-buttons {
+    margin-top: 20px;
+}
+button {
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.816);
+    padding: 15px 20px;
+    font-size: 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 10px;
+}
+button:hover {
+    background-color: #8f8374;
+}
     </style>
 </head>
 <body>
-    <header>
-        <img src=".\assets\background\logo.png" alt="Logo">
-        <h1>Pentest-Pepe </h1>
-    </header>
+    <div class="w3-top">
+        <div class="w3-bar w3-white w3-card" id="myNavbar">
+          <a href="/" class="w3-bar-item w3-button w3-wide">
+            <img src="/images/logo.png" alt="Logo" style="height:35px; vertical-align:middle;"> 
+               PEN-TEST PEPE
+          </a>
+          <!-- Right-sided navbar links -->
+          <div class="w3-right w3-hide-small">
+            <a href="/login.html" class="w3-bar-item w3-button" style="padding-top: 15px; padding-right: 20px;"><i class="fa fa-comments"></i> Community</a>
+          </div>
+        </div>
+    </div>
 
     <div class="question">
         <p>Auf deiner Reise findest du einen verletzten Meeresbewohner, der um Hilfe bittet. Doch du bist in Eile und der Schatz wartet. Was wirst du tun?</p>

@@ -1,138 +1,136 @@
 <!DOCTYPE html>
-<html lang="de" data-bs-theme="dark">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
-            integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
-            crossorigin="anonymous"></script>
-        <!-- Google Icons -->
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" rel="stylesheet">
-        <!-- Anime JS -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"
-            integrity="sha512-z4OUqw38qNLpn1libAN9BsoDx6nbNFio5lA6CuTp9NlK83b89hgyCVq+N5FdBJptINztxn1Z3SaKSKUS5UP60Q=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            position: relative;
-        }
-        header {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            display: flex;
-            align-items: center;
-        }
-        header img {
-            height: 40px;
-            margin-right: 10px;
-        }
-        header h1 {
-            font-size: 24px;
-            color: white;
-        }
-        .container {
-            background: rgb(255, 253, 253);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgb(255, 253, 253);
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.816);
-            width: 400px;
-            animation: fadeIn 1s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        h2 {
-            text-align: center;
-            margin-top: 0;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        .input-container {
-            position: relative;
-        }
-        .input-container i {
-            position: absolute;
-            left: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #888;
-        }
-        .input-container input {
-            width: 100%;
-            padding: 10px;
-            padding-left: 30px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 14px;
-            background-color: #fff;
-            color: #333;
-        }
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
-        button:hover {
-            transform: scale(1.05);
-            background-color: #3e8e41;
-        }
-        .error {
-            color: red;
-            font-size: 14px;
-            text-align: center;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link rel="icon" href="/images/logo.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
+
+body, html {
+    height: 100%;
+    line-height: 1.8;
+}
+/* Full height image header */
+.bgimg-1 {
+    background-position: center;
+    background-size: cover;
+    background-image: url("/images/mainpic2.png");
+    min-height: 100%;
+}
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; 
+}
+.container {
+    background: rgb(255, 253, 253);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgb(0, 0, 0);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.816);
+    width: 400px;
+    animation: fadeIn 1s ease-in-out;
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+h2 {
+    text-align: center;
+    margin-top: 0;
+    color: black;
+}
+.form-group {
+    margin-bottom: 15px;
+}
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: black;
+}
+.input-container {
+    position: relative;
+}
+.input-container i {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+}
+.input-container input {
+    width: 100%;
+    padding: 10px;
+    padding-left: 30px;
+    border: 1px solid #000000;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: #ffffff;
+    color: #000000;
+}
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: rgb(0, 0, 0);
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+button:hover {
+    transform: scale(1.05);
+    background-color: #3e8e41;
+}
+.error {
+    color: red;
+    font-size: 14px;
+    text-align: center;
+}
+</style>
 </head>
 <body>
-    <header>
-        <img src=".\assets\background\logo.png" alt="Logo">
-        <h1>Pentest-Pepe</h1>
-    </header>
+
+
+<!-- Header with full-height image -->
+<header class="bgimg-1 w3-display-container" id="home">
+    <div class="w3-top">
+        <div class="w3-bar w3-white w3-card" id="myNavbar">
+            <a href="/" class="w3-bar-item w3-button w3-wide">
+                <img src="/images/logo.png" alt="Logo" style="height:35px; vertical-align:middle;"> 
+                PEN-TEST PEPE
+            </a>
+        </div>
+    </div>
     <div class="container">
         <h2>Login</h2>
         <form id="loginForm">
             <div class="form-group">
                 <label for="username">Benutzername</label>
                 <div class="input-container">
-                    <i class="fas fa-user"></i>
+                    <i class="fa fa-user w3-xlarge w3-padding-48"></i>
                     <input type="text" id="username" name="username" required>
                 </div>
             </div>
             <div class="form-group">
                 <label for="password">Passwort</label>
                 <div class="input-container">
-                    <i class="fas fa-lock"></i>
+                    <i class="fa fa-lock w3-xlarge w3-padding-48"></i>
                     <input type="password" id="password" name="password" required>
                 </div>
             </div>
@@ -140,31 +138,66 @@
             <div class="error" id="error-message"></div>
         </form>
     </div>
+</header>
 
-    <script>
-        document.getElementById('loginForm').addEventListener('submit', async function (event) {
-            event.preventDefault(); 
 
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
+<!-- Footer -->
+<footer class="w3-center w3-black w3-padding-64">
+  <div class="w3-xlarge w3-section">
+    <i class="fa fa-facebook-official w3-hover-opacity"></i>
+    <i class="fa fa-instagram w3-hover-opacity"></i>
+    <i class="fa fa-snapchat w3-hover-opacity"></i>
+    <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+    <i class="fa fa-twitter w3-hover-opacity"></i>
+    <i class="fa fa-linkedin w3-hover-opacity"></i>
+  </div>
+  <p>Nonsense Powered by <a href="https://leibniz-akademie.de/" title="Leibniz Akademie" target="_blank" class="w3-hover-text-green">Leibniz Akademie</a></p>
+</footer>
+ 
+<script>
 
-            const response = await fetch('login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username, password }),
-            });
+// Login-Form
+document.addEventListener("DOMContentLoaded", function () {
+    const role = localStorage.getItem("role");
+    const currentPage = window.location.pathname;
 
-            const data = await response.json();
+    if (role === "admin" && currentPage !== "/admin_forum.html") {
+        window.location.href = "admin_forum.html";
+    } else if (role === "user" && currentPage !== "/user_forum.html") {
+        window.location.href = "user_forum.html";
+    }
+});
 
-            if (response.ok) {
-                alert(data.response); 
-                window.location.href = 'profile.html'; 
-            } else {
-                document.getElementById('error-message').textContent = data.response;
-            }
-        });
-    </script>
+
+document.getElementById('loginForm').addEventListener('submit', async function (event) {
+    event.preventDefault();
+
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    const response = await fetch('/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+        localStorage.setItem('jwt', data.token); 
+        localStorage.setItem('role', data.role);
+
+        if (data.role === "admin") {
+            window.location.href = "admin_forum.html"; 
+        } else {
+            window.location.href = "user_forum.html";
+            return username;
+        }
+    } else {
+        document.getElementById('error-message').textContent = data.response;
+    }
+});
+
+</script>
 </body>
 </html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Pen-Test Pepe</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/images/logo.png">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: "Raleway", sans-serif;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; 
+}
+.w3-top{
+  position: relative;
+}
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+
+.profile-container {
+  width: 25%;
+  padding: 20px;
+  background: #f4f4f4;
+  border-radius: 10px;
+}
+.profile-container .search-container {
+  margin-top: 20px;
+}
+.search-container input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: #fff;
+  color: #333;
+}
+.file-list {
+  margin-top: 20px;
+  text-align: left;
+}
+.file-list ul {
+  list-style-type: none;
+  padding: 0;
+}
+.file-list li {
+  padding: 5px;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+}
+.file-list li:hover {
+  background-color: #f4f4f4;
+  cursor: pointer;
+}
+
+.content-container {
+  width: 75%;
+  display: flex;
+  gap: 20px;
+}
+
+.posts {
+  width: 70%;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.drafts {
+  width: 30%;
+  background: #eee;
+  padding: 20px;
+  border-radius: 10px;
+}
+</style>
+</head>
+
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+  <div class="w3-bar w3-white w3-card" id="myNavbar">
+    <a href="/" class="w3-bar-item w3-button w3-wide">
+      <img src="/images/logo.png" alt="Logo" style="height:35px; vertical-align:middle;"> 
+         PEN-TEST PEPE
+    </a>
+    <!-- Right-sided navbar links -->
+    <div class="w3-right w3-hide-small">
+      <a href="#" onclick="logout()" class="w3-bar-item w3-button" style="padding-top: 15px; padding-right: 20px;">
+        <i class="fa fa-sign-out"></i> Ausloggen
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="profile-container">
+    <img src="./images/profilpic.jpg" alt="Profilbild" style="width:100%; border-radius: 10px;">
+    <h2>Admin Pepe</h2>
+    <p>
+      <b style="color:#52504f">"Im Herzen ein Pirat."</b>
+    </p>
+    <p style="font-size: 13px;">Unveröffentlichte Werke:</p>
+
+    <div class="search-container">
+      <form id="search-form">
+          <input type="text" id="file-search" name="q" placeholder="Dateiname suchen...">
+          <button type="submit" class="fa fa-search w3-button w3-round w3-padding w3-white" style="margin-top: 5px;"></button>
+      </form>
+      <ul id="file-list"></ul>            
+  </div>
+
+  
+  <div class="file-list">
+      <ul id="file-list"></ul>
+  </div>
+
+  <form id="upload-form" action="/api/admin/upload" method="POST" enctype="multipart/form-data">
+      <input type="file" id="myFile" name="file">
+      <button type="submit" class="fa fa-upload w3-button w3-round w3-padding w3-black" style="margin-top: 5px;"></button>
+
+  <div id="upload-response" style="margin-top: 20px; color: green;"></div>
+
+  </div>
+
+  <div class="content-container">
+    <div class="posts">
+      <h2>Beiträge</h2>
+      <p>Alle Posts?</p>
+    </div>
+    
+    <div class="drafts">
+      <h2>Entwürfe</h2>
+      <p>Entwürfe der Posts?</p>
+    </div>
+  </div>
+</div>
+
+<!-- Sidebar on small screens when clicking the menu icon -->
+<nav class="w3-sidebar w3-bar-block w3-black w3-card w3-animate-left w3-hide-medium w3-hide-large" style="display:none" id="mySidebar">
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-large w3-padding-16">Schließen ×</a>
+  <a href="/" onclick="w3_close()" class="w3-bar-item w3-button">Home</a>
+  <a href="/forum.html" onclick="w3_close()" class="w3-bar-item w3-button">Community</a>
+</nav>
+
+<!-- Footer -->
+<footer class="w3-center w3-black w3-padding-64">
+  <div class="w3-xlarge w3-section">
+    <i class="fa fa-facebook-official w3-hover-opacity"></i>
+    <i class="fa fa-instagram w3-hover-opacity"></i>
+    <i class="fa fa-snapchat w3-hover-opacity"></i>
+    <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+    <i class="fa fa-twitter w3-hover-opacity"></i>
+    <i class="fa fa-linkedin w3-hover-opacity"></i>
+  </div>
+  <p>Nonsense Powered by <a href="https://leibniz-akademie.de/" title="Leibniz Akademie" target="_blank" class="w3-hover-text-green">Leibniz Akademie</a></p>
+</footer>
+ 
+<script>
+document.getElementById('file-search').addEventListener('input', async function () {
+    let searchQuery = this.value.trim();
+    let fileList = document.getElementById('file-list');
+
+    if (searchQuery === "") {
+        fileList.innerHTML = ""; 
+        return;
+    }
+
+    try {
+        let response = await fetch(`/api/admin/search?q=${encodeURIComponent(searchQuery)}`);
+        let data = await response.json();
+
+        console.log("API Response:", data);
+
+        if (response.ok && data.length > 0) {
+            fileList.innerHTML = data.map(file => `<li>${file.filename}</li>`).join('');
+        } else {
+            fileList.innerHTML = `<li style='color: red;'>Keine Datei gefunden.</li>`;
+        }
+
+    } catch (error) {
+        console.error("Fehler:", error);
+        fileList.innerHTML = "<li style='color: red;'>Fehler beim Laden.</li>";
+    }
+});
+
+
+
+  document.getElementById('upload-form').addEventListener('submit', async function(event) {
+      event.preventDefault();
+
+      let formData = new FormData(this);
+
+      try {
+          let response = await fetch('/api/admin/upload', {
+              method: 'POST',
+              body: formData
+          });
+
+          if (!response.ok) {
+              throw new Error("Fehler beim Upload");
+          }
+
+          let data = await response.json();
+          let uploadResponseDiv = document.getElementById('upload-response');
+
+          if (data.status === '200') {
+              uploadResponseDiv.innerHTML = `<p style="color: green;">${data.response}</p>`;
+          } else {
+              uploadResponseDiv.innerHTML = `<p style="color: red;">${data.response}</p>`;
+          }
+      } catch (error) {
+          console.error("Fehler:", error);
+          let uploadResponseDiv = document.getElementById('upload-response');
+          uploadResponseDiv.innerHTML = `<p style="color: red;">Fehler bei der Dateiübertragung</p>`;
+      }
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const role = localStorage.getItem("role");
+
+    if (!role) {
+        alert("Bitte zuerst einloggen!");
+        window.location.href = "login.html";
+    } else if (role === "admin") {
+        console.log("Willkommen, Admin!");
+    } else if (role === "user") {
+        alert("Du hast keinen Zugriff auf diese Seite!");
+        window.location.href = "user_forum.html";
+    } else {
+        window.location.href = "login.html";
+    }
+});
+
+  function logout() {
+      localStorage.removeItem("token");
+      localStorage.removeItem("role"); 
+      window.location.href = "login.html";
+  }
+  
+</script>
+
+</body>
+</html>

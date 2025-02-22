@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Pen-Test Pepe</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/images/logo.png">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: "Raleway", sans-serif;
+}
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; 
+}
+.w3-top{
+  position: relative;
+}
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+
+.profile-container {
+  width: 25%;
+  padding: 20px;
+  background: #f4f4f4;
+  border-radius: 10px;
+}
+
+.content-container {
+  width: 75%;
+  display: flex;
+  gap: 20px;
+}
+
+.posts {
+  width: 70%;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.drafts {
+  width: 30%;
+  background: #eee;
+  padding: 20px;
+  border-radius: 10px;
+}
+</style>
+</head>
+
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+  <div class="w3-bar w3-white w3-card" id="myNavbar">
+    <a href="/" class="w3-bar-item w3-button w3-wide">
+        <img src="/images/logo.png" alt="Logo" style="height:35px; vertical-align:middle;"> 
+         PEN-TEST PEPE
+    </a>
+    <!-- Right-sided navbar links -->
+    <div class="w3-right w3-hide-small">
+      <a href="#" onclick="logout()" class="w3-bar-item w3-button" style="padding-top: 15px; padding-right: 20px;">
+        <i class="fa fa-sign-out"></i> Ausloggen
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="profile-container">
+    <img src="./images/profilpic.jpg" alt="Profilbild" style="width:100%; border-radius: 10px;">
+    <h2>Willkommen</h2>
+    <p>
+      <b style="color:#52504f">"Du bist ein Teil der Pepe-Community."</b>
+    </p>
+  </div>
+
+  <div class="content-container">
+    <div class="posts">
+      <h2>Beiträge</h2>
+      <p>Alle Posts?</p>
+    </div>
+    
+    <div class="drafts">
+      <h2>Entwürfe</h2>
+      <p>Entwürfe der Posts?</p>
+    </div>
+  </div>
+</div>
+
+<!-- Sidebar on small screens when clicking the menu icon -->
+<nav class="w3-sidebar w3-bar-block w3-black w3-card w3-animate-left w3-hide-medium w3-hide-large" style="display:none" id="mySidebar">
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-large w3-padding-16">Schließen ×</a>
+  <a href="/" onclick="w3_close()" class="w3-bar-item w3-button">Home</a>
+  <a href="/forum.html" onclick="w3_close()" class="w3-bar-item w3-button">Community</a>
+</nav>
+
+<!-- Footer -->
+<footer class="w3-center w3-black w3-padding-64">
+  <div class="w3-xlarge w3-section">
+    <i class="fa fa-facebook-official w3-hover-opacity"></i>
+    <i class="fa fa-instagram w3-hover-opacity"></i>
+    <i class="fa fa-snapchat w3-hover-opacity"></i>
+    <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+    <i class="fa fa-twitter w3-hover-opacity"></i>
+    <i class="fa fa-linkedin w3-hover-opacity"></i>
+  </div>
+  <p>Nonsense Powered by <a href="https://leibniz-akademie.de/" title="Leibniz Akademie" target="_blank" class="w3-hover-text-green">Leibniz Akademie</a></p>
+</footer>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const role = localStorage.getItem("role");
+    if (!role) {
+        alert("Bitte zuerst einloggen!");
+        window.location.href = "login.html";
+    } else if (role === "user") {
+        console.log("Willkommen in der Community!");
+    } else if (role === "admin") {
+        window.location.href = "admin_forum.html";
+    } else {
+        window.location.href = "login.html";
+    }
+  });
+
+  function logout() {
+      localStorage.removeItem("token");
+      localStorage.removeItem("role"); 
+      window.location.href = "login.html";
+  }
+
+</script>
+</body>
+</html>
