@@ -1,26 +1,69 @@
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+dotenv.config();
 
-function authenticateToken(req, res, next) {
-    const token = req.headers['authorization'];
-    if (!token) return res.status(401).send('Access Denied');
+export function authenticateToken(req, res, next) {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
 
-    const tokenBody = token.split(' ')[1];
-    jwt.verify(tokenBody, process.env.JWT_SECRET, { algorithms: ['HS256'] }, (err, user) => {
-        if (err) return res.status(403).send('Invalid Token');
+    if (!token) {
+        return res.status(401).json({ message: 'Access denied. No token provided.' });
+    }
+
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+        if (err) {
+            return res.status(403).json({ message: 'Invalid token.' });
+        }
         req.user = user;
         next();
     });
 }
 
-function authorizeRole(role) {
+export function authorizeRole(role) {
     return (req, res, next) => {
-        console.log(`User role: ${req.user.role}, Required role: ${role}`);
         if (req.user.role !== role) {
-            return res.status(403).send('Forbidden');
+            return res.status(403).json({ message: 'Access denied. Insufficient permissions.' });
         }
         next();
     };
 }
 
+export function authenticateTokenWeak(req, res, next) {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
 
-export { authenticateToken, authorizeRole };
+    if (!token) {
+        return res.status(401).json({ message: 'Access denied. No token provided.' });
+    }
+
+    try {
+        const user = jwt.decode(token);
+
+        if (!user) {
+            return res.status(403).json({ message: 'Invalid token.' });
+        }
+
+        req.user = user;
+        next();
+    } catch (err) {
+        return res.status(403).json({ message: 'Invalid token format.' });
+    }
+}
+
+export function authorizeRoleWeak(role) {
+    return (req, res, next) => {
+        const userRole = req.query.role || req.body.role || req.user?.role;
+        if (Array.isArray(userRole)) {
+            if (userRole.includes(role)) {
+                return next();
+            }
+        } else if (userRole === role) {
+            return next();
+        }
+
+        return res.status(403).json({ message: 'Access denied' });
+    };
+}
+
+
+

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum Welcome</title>
+    <style>
+        body {
+            background-image: url('default-bg.PNG');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body>
+<h2>Willkommen im Forum</h2>
+
+<h3>Beiträge</h3>
+<div id="posts"></div>
+
+<h3>Neuen Beitrag erstellen</h3>
+<textarea id="newPost" rows="3" cols="50"></textarea>
+<br>
+<button onclick="addPost()">Beitrag posten</button>
+
+<div id="adminPanel" style="display: none;">
+    <h3>Admin-Bereich</h3>
+    <label for="bgUrl">Hintergrundbild-URL:</label>
+    <input type="text" id="bgUrl">
+    <button onclick="changeBackground()">Ändern</button>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = 'login.html';
+            return;
+        }
+
+        try {
+            const response = await fetch('/api/welcome', {
+                method: 'GET',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+
+            if (!response.ok) {
+                throw new Error('Nicht autorisiert');
+            }
+
+            const data = await response.json();
+            document.getElementById('userInfo').innerText = data.message;
+
+            const postContainer = document.getElementById('posts');
+            data.posts.forEach(post => {
+                const postElement = document.createElement('p');
+                postElement.innerHTML = `<strong>${post.author}:</strong> ${post.content}`;
+                postContainer.appendChild(postElement);
+            });
+
+            const adminPanel = document.getElementById('adminPanel');
+            if (data.canChangeBackground) {
+                adminPanel.style.display = 'block';
+            }
+        } catch (error) {
+            console.error('Fehler:', error);
+            window.location.href = 'login.html';
+        }
+    });
+
+    function addPost() {
+        const postText = document.getElementById('newPost').value;
+        if (postText.trim() !== '') {
+            const newPost = document.createElement('p');
+            newPost.innerHTML = `<strong>Ich:</strong> ${postText}`;
+            document.getElementById('posts').appendChild(newPost);
+            document.getElementById('newPost').value = '';
+        }
+    }
+
+    async function changeBackground() {
+        const newBg = document.getElementById('bgUrl').value;
+        const token = localStorage.getItem('token');
+
+        try {
+            const response = await fetch('/api/change-background', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ backgroundUrl: newBg })
+            });
+
+            const result = await response.json();
+            if (response.ok) {
+                document.body.style.backgroundImage = `url('${result.backgroundUrl}')`;
+            } else {
+                alert(result.message);
+            }
+        } catch (error) {
+            console.error('Fehler:', error);
+        }
+    }
+</script>
+</body>
+</html>
