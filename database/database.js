@@ -12,15 +12,26 @@ db.serialize(() => {
     db.run(`CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         username TEXT UNIQUE,
-        password TEXT
+        password TEXT,
+        role TEXT
     )`, (err) => {
         if (err) {
             console.error("Error creating table:", err.message);
         }
     });
 
-    db.run("INSERT OR IGNORE INTO users (id, username, password) VALUES (1, 'admin', 'secret')");
-    db.run("INSERT OR IGNORE INTO users (id, username, password) VALUES (2, 'user', '1234')");
+    db.run("INSERT OR IGNORE INTO users (id, username, password, role) VALUES (1, 'admin', 'secret', 'admin')");
+    db.run("INSERT OR IGNORE INTO users (id, username, password, role) VALUES (3, 'lara', 'passwort123', 'user')");
+    db.run("INSERT OR IGNORE INTO users (id, username, password, role) VALUES (3, 'max', 'passwort123', 'user')");
+    db.run("INSERT OR IGNORE INTO users (id, username, password, role) VALUES (4, 'lisa', '1234abcd', 'user')");
+    db.run("INSERT OR IGNORE INTO users (id, username, password, role) VALUES (5, 'paul', 'meinPasswort1', 'user')");
+    db.run("INSERT OR IGNORE INTO users (id, username, password, role) VALUES (6, 'sara', 'geheim456', 'user')");
+    db.run("INSERT OR IGNORE INTO users (id, username, password, role) VALUES (7, 'anna', 'password789', 'user')");
+    db.run("INSERT OR IGNORE INTO users (id, username, password, role) VALUES (8, 'hans', '12345hans', 'user')");
+    db.run("INSERT OR IGNORE INTO users (id, username, password, role) VALUES (9, 'maria', 'maria2023', 'user')");
+    db.run("INSERT OR IGNORE INTO users (id, username, password, role) VALUES (10, 'julian', 'sicheresPasswort', 'user')");
+    db.run("INSERT OR IGNORE INTO users (id, username, password, role) VALUES (11, 'kim', 'meinpasswort2023', 'user')");
+    db.run("INSERT OR IGNORE INTO users (id, username, password, role) VALUES (12, 'julia', 'juliapass123', 'user')");
 
 /*
     // Testausgabe
@@ -45,8 +56,18 @@ db.serialize(() => {
         }
     });
 
-    db.run(`INSERT OR IGNORE INTO files (id, filename, filepath) VALUES (1, 'test', 'test')`);
-    db.run(`INSERT OR IGNORE INTO files (id, filename, filepath) VALUES (2, 'schatzsuche.txt', 'blabla')`);
+    db.run(`INSERT OR IGNORE INTO files (id, filename, filepath) VALUES (1, 'meisterwerk.txt', '/uploads/meisterwerk.txt')`);
+    db.run(`INSERT OR IGNORE INTO files (id, filename, filepath) VALUES (2, 'pentest.png', '/uploads/pentest.png')`);
+    db.run(`INSERT OR IGNORE INTO files (id, filename, filepath) VALUES (3, 'goethev2.txt', '/uploads/goethev2.txt')`);
+    db.run(`INSERT OR IGNORE INTO files (id, filename, filepath) VALUES (4, 'tinte.txt', '/uploads/tinte.txt')`);
+    db.run(`INSERT OR IGNORE INTO files (id, filename, filepath) VALUES (5, 'monalisa.png', '/uploads/monalisa.png')`);
+    db.run(`INSERT OR IGNORE INTO files (id, filename, filepath) VALUES (6, 'sketch.png', '/uploads/sketch.png')`);
+    db.run(`INSERT OR IGNORE INTO files (id, filename, filepath) VALUES (7, 'kugelschreiber.txt', '/uploads/kugelschreiber.txt')`);
+    db.run(`INSERT OR IGNORE INTO files (id, filename, filepath) VALUES (8, 'bild.png', '/uploads/bild.png')`);
+    db.run(`INSERT OR IGNORE INTO files (id, filename, filepath) VALUES (9, 'hilfeschrei.txt', '/uploads/hilfeschrei.txt')`);
+    db.run(`INSERT OR IGNORE INTO files (id, filename, filepath) VALUES (10, 'lol.txt', '/uploads/lol.txt')`);
+    db.run(`INSERT OR IGNORE INTO files (id, filename, filepath) VALUES (11, 'derschrei.png', '/uploads/derschrei.png')`);
+    db.run(`INSERT OR IGNORE INTO files (id, filename, filepath) VALUES (12, 'sketchv2.png', '/uploads/sketchv2.png')`);
 
 /*  // Testausgabe
     db.all("SELECT * FROM files", (err, rows) => {
