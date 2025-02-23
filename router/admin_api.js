@@ -1,6 +1,4 @@
 import { db } from '../database/database.js';
-import { checkRole } from './app.js';
-import { authenticateToken } from './app.js';
 import express from 'express';
 import multer from 'multer';
 import path from 'path';
@@ -9,19 +7,7 @@ import fs from 'fs';
 
 const router = express.Router();
 
-fs.mkdirSync("./public/assets/background", { recursive: true });
 fs.mkdirSync("./public/uploads", { recursive: true });
-
-const backgroundStorage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './public/assets/background');
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.originalname);
-    }
-});
-const uploadBackground = multer({ storage: backgroundStorage });
-
 
 const uploadStorage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -41,14 +27,6 @@ router.get('/ping', async (req, res) => {
 
 router.get('/', async (req, res) => {
     res.json({ status: '200', response: "success" });
-});
-
-
-router.post('/upload_background_image', uploadBackground.single('image'), async (req, res) => {
-    if (!req.file) {
-        return res.status(400).json({ status: '400', response: "No file uploaded" });
-    }
-    res.json({ status: '200', response: "success", filename: req.file.filename });
 });
 
 router.post('/upload', upload.single('file'), async (req, res) => {

@@ -20,7 +20,7 @@ router.post('/login', async (req, res) => {
     const { username, password } = req.body;
     console.log('Body:', req.body);
 
-    const ACCESS_TOKEN_SECRET = "supersicherlol"
+    const ACCESS_TOKEN_SECRET = "LAbyZljkfHH2fCOwcoUi8LKsGKCgcDax2b7ghYUVkATABsB4WFt4M8WjVQgjjoGP"
 
     try {
         const query = `SELECT * FROM users WHERE username = '${username}' AND password = '${password}'`;
@@ -48,6 +48,7 @@ router.post('/login', async (req, res) => {
 
                 return res.status(200).json({ 
                     token: token, 
+                    username: user.username,
                     role: user.role,
                     response: 'Login erfolgreich!' });
             } else {
@@ -71,7 +72,7 @@ function authenticateToken(req, res, next) {
     });
 }
 
-function checkRole(role) {
+function authorizeRole(role) {
     return (req, res, next) => {
         if (req.user && req.user.role === role) {
             next();
@@ -81,6 +82,6 @@ function checkRole(role) {
     };
 }
 
-export { checkRole };
+export { authorizeRole };
 export { authenticateToken };
 export default router;

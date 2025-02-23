@@ -161,13 +161,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const role = localStorage.getItem("role");
     const currentPage = window.location.pathname;
 
-    if (role === "admin" && currentPage !== "/admin_forum.html") {
-        window.location.href = "admin_forum.html";
-    } else if (role === "user" && currentPage !== "/user_forum.html") {
-        window.location.href = "user_forum.html";
+    if (!role && currentPage !== "/login.html") {
+        window.location.href = "login.html";
+        return;
+    }
+    
+    if (role && currentPage === "/login.html") {
+        window.location.href = "community.html";
     }
 });
-
 
 document.getElementById('loginForm').addEventListener('submit', async function (event) {
     event.preventDefault();
@@ -187,12 +189,7 @@ document.getElementById('loginForm').addEventListener('submit', async function (
         localStorage.setItem('jwt', data.token); 
         localStorage.setItem('role', data.role);
 
-        if (data.role === "admin") {
-            window.location.href = "admin_forum.html"; 
-        } else {
-            window.location.href = "user_forum.html";
-            return username;
-        }
+        window.location.href = "community.html"; 
     } else {
         document.getElementById('error-message').textContent = data.response;
     }
