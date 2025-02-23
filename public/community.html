@@ -87,7 +87,7 @@ header {
 }
 </style>
 </head>
-
+<body>
 <div class="w3-top">
     <div class="w3-bar w3-white w3-card" id="myNavbar">
       <a href="/" class="w3-bar-item w3-button w3-wide">
@@ -133,18 +133,25 @@ header {
     </div>
   
     <div class="content-container">
-      <div class="posts">
+      <div id="posts" class="posts">
         <h2>Beiträge</h2>
         <p>Alle Posts?</p>
       </div>
       
-      <div class="drafts">
+      <div id="newPost" class="drafts">
         <h2>Entwürfe</h2>
+        <textarea rows="3" cols="50"></textarea><br>
+            <button onclick="addPost()">Beitrag posten</button>
+
+        <div id="adminPanel" style="display: none;">
+            <label for="bgUrl">Hintergrundbild-URL:</label>
+            <input type="text" id="bgUrl">
+            <button onclick="changeBackground()">Ändern</button>
+        </div>
         <p>Entwürfe der Posts?</p>
       </div>
     </div>
-  </div>  
-
+</div>  
 <!-- Sidebar on small screens when clicking the menu icon -->
 <nav class="w3-sidebar w3-bar-block w3-black w3-card w3-animate-left w3-hide-medium w3-hide-large" style="display:none" id="mySidebar">
   <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-large w3-padding-16">Schließen ×</a>
@@ -166,7 +173,7 @@ header {
 </footer>
  
 <script>
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
     const role = localStorage.getItem("role");
 
     if (!role) {
@@ -174,7 +181,6 @@ document.addEventListener("DOMContentLoaded", function () {
         window.location.href = "login.html";
         return;
     }
-
 
     if (role !== 'admin') {
         document.getElementById('adminPanel').style.display = 'none';
@@ -185,65 +191,101 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('file-list-container').style.display = 'block';
         document.getElementById('upload-form').style.display = 'block';
     }
-
-    document.getElementById('file-search').addEventListener('input', async function () {
-        let searchQuery = this.value.trim();
-        let fileList = document.getElementById('file-list');
-
-        if (searchQuery === "") {
-            fileList.innerHTML = ""; 
-            return;
-        }
-
-        try {
-            let response = await fetch(`/api/admin/search?q=${encodeURIComponent(searchQuery)}`);
-            let data = await response.json();
-
-            console.log("API Response:", data);
-
-            if (response.ok && data.length > 0) {
-                fileList.innerHTML = data.map(file => `<li>${file.filename}</li>`).join('');
-            } else {
-                fileList.innerHTML = `<li style='color: red;'>Keine Datei gefunden.</li>`;
-            }
-        } catch (error) {
-            console.error("Fehler:", error);
-            fileList.innerHTML = "<li style='color: red;'>Fehler beim Laden.</li>";
-        }
-    });
-
-
-    document.getElementById('upload-form').addEventListener('submit', async function(event) {
-        event.preventDefault();
-
-        let formData = new FormData(this);
-
-        try {
-            let response = await fetch('/api/admin/upload', {
-                method: 'POST',
-                body: formData
-            });
-
-            if (!response.ok) {
-                throw new Error("Fehler beim Upload");
-            }
-
-            let data = await response.json();
-            let uploadResponseDiv = document.getElementById('upload-response');
-
-            if (data.status === '200') {
-                uploadResponseDiv.innerHTML = `<p style="color: green;">${data.response}</p>`;
-            } else {
-                uploadResponseDiv.innerHTML = `<p style="color: red;">${data.response}</p>`;
-            }
-        } catch (error) {
-            console.error("Fehler:", error);
-            let uploadResponseDiv = document.getElementById('upload-response');
-            uploadResponseDiv.innerHTML = `<p style="color: red;">Fehler bei der Dateiübertragung</p>`;
-        }
-    });
 });
 
+
+document.getElementById('file-search').addEventListener('input', async function () {
+    let searchQuery = this.value.trim();
+    let fileList = document.getElementById('file-list');
+
+    if (searchQuery === "") {
+        fileList.innerHTML = ""; 
+        return;
+    }
+
+    try {
+        let response = await fetch(`/api/admin/search?q=${encodeURIComponent(searchQuery)}`);
+        let data = await response.json();
+
+        console.log("API Response:", data);
+
+        if (response.ok && data.length > 0) {
+            fileList.innerHTML = data.map(file => `<li>${file.filename}</li>`).join('');
+        } else {
+            fileList.innerHTML = `<li style='color: red;'>Keine Datei gefunden.</li>`;
+        }
+    } catch (error) {
+        console.error("Fehler:", error);
+        fileList.innerHTML = "<li style='color: red;'>Fehler beim Laden.</li>";
+    }
+});
+
+
+document.getElementById('upload-form').addEventListener('submit', async function(event) {
+    event.preventDefault();
+
+    let formData = new FormData(this);
+
+    try {
+        let response = await fetch('/api/admin/upload', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (!response.ok) {
+            throw new Error("Fehler beim Upload");
+        }
+
+        let data = await response.json();
+        let uploadResponseDiv = document.getElementById('upload-response');
+
+        if (data.status === '200') {
+            uploadResponseDiv.innerHTML = `<p style="color: green;">${data.response}</p>`;
+        } else {
+            uploadResponseDiv.innerHTML = `<p style="color: red;">${data.response}</p>`;
+        }
+    } catch (error) {
+        console.error("Fehler:", error);
+        let uploadResponseDiv = document.getElementById('upload-response');
+        uploadResponseDiv.innerHTML = `<p style="color: red;">Fehler bei der Dateiübertragung</p>`;
+    }
+});
+
+function addPost() {
+    const postText = document.querySelector('#newPost textarea').value;
+    if (postText.trim() !== '') {
+        const newPost = document.createElement('p');
+        newPost.innerHTML = `<strong>Ich:</strong> ${postText}`;
+        document.getElementById('posts').appendChild(newPost);
+        document.querySelector('#newPost textarea').value = ''; 
+    }
+}
+
+
+async function changeBackground() {
+    const newBg = document.getElementById('bgUrl').value;
+    const token = localStorage.getItem('token');
+
+    try {
+        const response = await fetch('/api/change-background', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ backgroundUrl: newBg })
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+            document.body.style.backgroundImage = `url('${result.backgroundUrl}')`;
+        } else {
+            alert(result.message);
+        }
+    } catch (error) {
+        console.error('Fehler:', error);
+    }
+}
 
 function logout() {
     localStorage.removeItem("token");

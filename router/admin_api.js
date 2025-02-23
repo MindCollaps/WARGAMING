@@ -4,7 +4,6 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 
-
 const router = express.Router();
 
 fs.mkdirSync("./public/uploads", { recursive: true });

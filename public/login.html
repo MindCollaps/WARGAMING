@@ -155,8 +155,6 @@ button:hover {
 </footer>
  
 <script>
-
-// Login-Form
 document.addEventListener("DOMContentLoaded", function () {
     const role = localStorage.getItem("role");
     const currentPage = window.location.pathname;
@@ -165,7 +163,7 @@ document.addEventListener("DOMContentLoaded", function () {
         window.location.href = "login.html";
         return;
     }
-    
+
     if (role && currentPage === "/login.html") {
         window.location.href = "community.html";
     }

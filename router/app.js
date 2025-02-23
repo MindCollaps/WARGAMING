@@ -2,13 +2,13 @@ import express from 'express'
 import admin from './admin_api.js';
 import { db } from '../database/database.js';
 import jwt from 'jsonwebtoken';
-//import dotenv from 'dotenv';
+
 
 const router = express.Router();
 
 router.use("/api/admin", admin)
 
-router.get('/api/ping', async(req, res) => {
+router.get('/api/ping', authenticateToken,  async(req, res) => {
     res.json({
         status: '200',
         response: "succes"
@@ -81,6 +81,30 @@ function authorizeRole(role) {
         }
     };
 }
+
+router.get('/api/welcome', authenticateToken, (req, res) => {
+    const response = {
+        message: `Willkommen, ${req.user.username}!`,
+        posts: [
+            { author: 'user1', content: 'Das ist ein Test-Post.' },
+            { author: 'user2', content: 'Noch ein Dummy-Post.' }
+        ],
+        canChangeBackground: req.user.role === 'admin'
+    };
+
+    res.json(response);
+});
+
+router.post('/api/change-background', authenticateToken, authorizeRole('admin'), (req, res) => {
+    const { backgroundUrl } = req.body;
+
+    if (!backgroundUrl) {
+        return res.status(400).json({ message: 'Kein Hintergrundbild angegeben' });
+    }
+
+    res.json({ message: 'Hintergrundbild geändert', backgroundUrl });
+});
+
 
 export { authorizeRole };
 export { authenticateToken };
