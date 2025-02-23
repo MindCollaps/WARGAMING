@@ -10,32 +10,6 @@ export function authenticateToken(req, res, next) {
         return res.status(401).json({ message: 'Access denied. No token provided.' });
     }
 
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-        if (err) {
-            return res.status(403).json({ message: 'Invalid token.' });
-        }
-        req.user = user;
-        next();
-    });
-}
-
-export function authorizeRole(role) {
-    return (req, res, next) => {
-        if (req.user.role !== role) {
-            return res.status(403).json({ message: 'Access denied. Insufficient permissions.' });
-        }
-        next();
-    };
-}
-
-export function authenticateTokenWeak(req, res, next) {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
-
-    if (!token) {
-        return res.status(401).json({ message: 'Access denied. No token provided.' });
-    }
-
     try {
         const user = jwt.decode(token);
 
@@ -50,7 +24,7 @@ export function authenticateTokenWeak(req, res, next) {
     }
 }
 
-export function authorizeRoleWeak(role) {
+export function authorizeRole(role) {
     return (req, res, next) => {
         const userRole = req.query.role || req.body.role || req.user?.role;
         if (Array.isArray(userRole)) {

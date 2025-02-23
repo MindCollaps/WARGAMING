@@ -1,9 +1,9 @@
 import express from 'express';
-import {authenticateToken, authenticateTokenWeak, authorizeRole, authorizeRoleWeak} from '../middleware/auth.js';
+import { authenticateToken, authorizeRole } from '../middleware/auth.js';
 
 const router = express.Router();
 
-router.get('/api/welcome', authenticateToken, (req, res) => {
+router.get('/api/welcome', authenticateTokenWeak, (req, res) => {
     const response = {
         message: `Willkommen, ${req.user.username}!`,
         posts: [
