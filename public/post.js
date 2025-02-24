@@ -8,10 +8,13 @@ App.component('post', {
         return {
             reportReason: '',
             admin: localStorage.getItem("role") === "admin",
+            single: false,
         };
     },
     mounted() {
-        document.getElementById("admin-text").innerHTML = this.post.reported_reason;
+        if (this.single) {
+            document.getElementById("admin-text").innerHTML = this.post.reported_reason;
+        }
     },
     methods: {
         openReportModal(post) {

@@ -107,23 +107,19 @@ router.post('/api/change-background', authenticateToken, authorizeRole('admin'),
     res.json({ message: 'Hintergrundbild geändert', backgroundUrl });
 });
 
+process.argv.forEach(function (val, index, array) {
+    let admin = false;
+    if (val == "admin"){
+        console.log("Running admin scheduler!!!");
+        admin = true;
+    }
 
-setInterval(() => {
-    console.log("Admin is checking reports");
-
-    const query = "SELECT * FROM 'posts' WHERE reported = 1";
-    db.all(query, (err, rows) => {
-        if (err) {
-            console.error('Database query error:', err.message);
-            return res.status(500).json({
-                status: '500',
-                response: 'Internal server error.',
-                error: err.message
-            });
-        }
-        if (rows.length > 0) {
-            let query = "UPDATE 'posts' SET reported = 0, reported_reason = '' WHERE reported = 1";
-            db.run(query, (err) => {
+    if (admin){
+        setInterval(async () => {
+            console.log("Admin is checking reports");
+        
+            const query = "SELECT * FROM 'posts' WHERE reported = 1";
+            db.all(query, async (err, rows) => {
                 if (err) {
                     console.error('Database query error:', err.message);
                     return res.status(500).json({
@@ -132,17 +128,29 @@ setInterval(() => {
                         error: err.message
                     });
                 }
+                if (rows.length > 0) {
+                    let query = "UPDATE 'posts' SET reported = 0, reported_reason = '' WHERE reported = 1";
+                    db.run(query, (err) => {
+                        if (err) {
+                            console.error('Database query error:', err.message);
+                            return res.status(500).json({
+                                status: '500',
+                                response: 'Internal server error.',
+                                error: err.message
+                            });
+                        }
+                    });
+        
+                    for (const r of rows) {
+                        await visit(r.id);
+                    }
+                } else {
+                    console.log("No new reports to check");
+                }
             });
-
-            console.log("Will check reports");
-            rows.forEach(r => {
-                visit(r.id);
-            });
-        } else {
-            console.log("No new reports to check");
-        }
-    });
-}, 1000 * 40);
+        }, 1000 * 40);
+    }
+  });
 
 const AUTH = jwt.sign(
     { id: 0, username: "admin", role: "admin" },
@@ -152,11 +160,12 @@ const AUTH = jwt.sign(
 
 async function visit(post) {
     try {
-        const url = new URL("http://localhost:5000/community.html");
+        console.log("Admin is checking report " + post);
+        const url = new URL("http://127.0.0.1:5000/community.html");
 
         const browser = await puppeteer.launch({
             args: [ '--no-sandbox' ],
-            headless: 'old',
+            timeout: 1000,
         });
         
         const page = await browser.newPage();
@@ -166,7 +175,7 @@ async function visit(post) {
         await page.close();
     
         url.searchParams.set('post', post);
-        console.log(`Visiting ${url}`);
+        console.log(`Visiting ` + url);
         const playerPage = await browser.newPage();
         setTimeout(() => browser.close(), BOT_TIMEOUT * 1000);
         await playerPage.goto(url.toString());

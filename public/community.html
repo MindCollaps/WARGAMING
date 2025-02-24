@@ -179,7 +179,7 @@
       </div>
       <div v-else class="posts">
         <h2>Beitrag</h2>
-        <post :post="shownPost"/>
+        <post :post="shownPost" :single/>
       </div>
       <div v-if="!showPost" id="app" class="drafts">
         <form id="newPostForm" @submit.prevent="createPost">

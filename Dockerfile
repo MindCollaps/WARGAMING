@@ -9,21 +9,21 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt/lists,sharing=locked \
     apt-get -y --no-install-recommends install \
-        nodejs npm python3 socat cowsay imagemagick cron netcat-openbsd chromium libasound2-dev libnss3-dev libatk1.0-0 libatk-bridge2.0-0
+        nodejs npm python3 socat cowsay imagemagick cron netcat-openbsd
+
+RUN chown ubuntu:ubuntu /app
 
 COPY --chown=ubuntu:ubuntu . .
 
 RUN bash ./box_setup.sh
 
-RUN --mount=type=cache,target=/ubuntu/.npm \
-    npm install 
-
 USER ubuntu
 
 RUN --mount=type=cache,target=/ubuntu/.npm \
-    npx puppeteer browsers install chrome
+    npm install
 
 USER root
+
 RUN chmod +x ./docker_start.sh
 
 CMD [ "./docker_start.sh" ]
