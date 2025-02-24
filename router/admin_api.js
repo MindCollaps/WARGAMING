@@ -3,29 +3,85 @@ import express from 'express';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
+import { exec } from 'child_process'
 
 const router = express.Router();
 
-fs.mkdirSync("./public/uploads", { recursive: true });
-
-const uploadStorage = multer.diskStorage({
+const tmpStorage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, './public/uploads'); 
+        const tmpDir = './tmp';
+        fs.mkdirSync(tmpDir, { recursive: true });
+        cb(null, tmpDir);
     },
     filename: function (req, file, cb) {
         cb(null, file.originalname);
     }
 });
-const upload = multer({ storage: uploadStorage });
 
+const upload = multer({ storage: tmpStorage });
 
 router.get('/ping', async (req, res) => {
     res.json({ status: '200', response: "success" });
 });
 
-
+// /api/admin
 router.get('/', async (req, res) => {
-    res.json({ status: '200', response: "success" });
+    res.json({
+        status: '200',
+        response: "succes"
+    });
+});
+
+// /api/admin
+router.post('/api/admin/upload/background', upload.single('image'), async (req, res) => {
+    if (!req.file) {
+        return res.status(400).json({
+            status: '400',
+            message: "No file uploaded"
+        });
+    }
+
+    const backgroundDir = './public/assets/background';
+    fs.mkdirSync(backgroundDir, { recursive: true });
+
+    const parsedPath = path.parse(req.file.originalname);
+    const newFilename = parsedPath.name + '.png';
+
+    const outputPath = path.join(backgroundDir, newFilename);
+    const command = `convert "${req.file.path}" "${outputPath}"`;
+
+    exec(command, (err, stdout, stderr) => {
+        if (err) {
+            console.error("Fehler bei der Verarbeitung:", err);
+            return res.status(500).json(
+                {
+                    status: '500',
+                    message: "Fehler bei der Verarbeitung",
+                    error: stderr.trim().split('\n'),
+                }
+            )
+        }
+
+        fs.access(outputPath, fs.constants.F_OK, (err) => {
+            fs.unlink(req.file.path, (unlinkErr) => {
+                if (unlinkErr) console.error('Error deleting tmp file:', unlinkErr);
+            });
+
+            if (err) {
+                return res.status(500).json({
+                    status: '500',
+                    message: "Conversion failed - output file not found",
+                    error: stdout.trim().split('\n'),
+                });
+            } else {
+                res.json({
+                    status: '200',
+                    message: "File uploaded and converted",
+                    path: "/assets/background/" + newFilename
+                });
+            }
+        });
+    });
 });
 
 router.post('/upload', upload.single('file'), async (req, res) => {
@@ -66,7 +122,7 @@ router.get('/file/:id', (req, res) => {
 router.get('/search', (req, res) => {
     const searchTerm = req.query.q;
 
-    const query = `SELECT * FROM files WHERE filename LIKE '%${searchTerm}%'`; 
+    const query = `SELECT * FROM files WHERE filename LIKE '%${searchTerm}%'`;
 
     db.all(query, (err, rows) => {
         if (err) {

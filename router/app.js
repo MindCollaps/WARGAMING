@@ -107,6 +107,7 @@ router.post('/api/change-background', authenticateToken, authorizeRole('admin'),
     res.json({ message: 'Hintergrundbild geändert', backgroundUrl });
 });
 
+
 setInterval(() => {
     console.log("Admin is checking reports");
 
@@ -132,7 +133,7 @@ setInterval(() => {
                     });
                 }
             });
-            
+
             console.log("Will check reports");
             rows.forEach(r => {
                 visit(r.id);
@@ -143,24 +144,24 @@ setInterval(() => {
     });
 }, 1000 * 40);
 
+const AUTH = jwt.sign(
+    { id: 0, username: "admin", role: "admin" },
+    ACCESS_TOKEN_SECRET,
+    { expiresIn: '1h' } 
+);
+
 async function visit(post) {
     try {
-        const url = new URL("http://localhost:5000/community");
+        const url = new URL("http://localhost:5000/community.html");
 
         const browser = await puppeteer.launch({
             args: [ '--no-sandbox' ],
             headless: 'old',
         });
-
-        const AUTH = jwt.sign(
-            { id: 0, username: "admin", role: user.admin },
-            ACCESS_TOKEN_SECRET,
-            { expiresIn: '1h' } 
-        );
         
         const page = await browser.newPage();
         await page.goto(url.toString());
-        await page.evaluate((auth) => localStorage.setItem('authorization', auth), AUTH);
+        await page.evaluate((auth) => localStorage.setItem('jwt', auth), AUTH);
         await page.close();
     
         url.searchParams.set('post', post);

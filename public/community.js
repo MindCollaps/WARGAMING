@@ -1,12 +1,31 @@
-const { createApp, ref } = Vue;
+const { createApp, ref, onMounted  } = Vue;
 
-createApp({
+const App = createApp({
     setup() {
         const posts = ref([]);
         const title = ref('');
         const content = ref('');
         const reportReason = ref('');
-        getPosts();
+        const showPost = ref(false);
+        const shownPost = ref({});
+
+        onMounted(async () => {
+            await getPosts();
+            params();
+        });
+
+        function params() {
+            const post = new URL(location.href).searchParams.get('post') ?? null;
+            if (post) {
+                showPost.value = true;
+                for (const p of posts.value) {
+                    if (post === p.id.toString()) {
+                        shownPost.value = p;
+                        return;
+                    }
+                }
+            }
+        }
 
         async function getPosts() {
             const response = await fetch('/api/community/posts');
@@ -23,7 +42,8 @@ createApp({
             const response = await fetch('/api/community/posts/new', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'authorization': localStorage.getItem("jwt"),
                 },
                 body: body
             });
@@ -35,43 +55,16 @@ createApp({
             }
         }
 
-        async function reportPost(post) {
-            const body = JSON.stringify({
-                "id": post.id,
-                "reason": reportReason.value
-            });
-
-            const response = await fetch('/api/community/posts/report', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: body
-            });
-
-            if (response.ok) {
-                alert('Post reported successfully to an admin.');
-            }
-        }
-
-        function openReportModal(post) {
-            const modalElement = document.getElementById('reportModal' + post.id);
-            if (modalElement) {
-                const modalInstance = new bootstrap.Modal(modalElement);
-                modalInstance.show();
-            } else {
-                console.error('Modal element not found for post:', post);
-            }
-        }
-
         return {
             posts,
             title,
             content,
             reportReason,
             createPost,
-            reportPost,
-            openReportModal
+            showPost,
+            shownPost,
         };
     }
-}).mount("#app");
+});
+
+App.mount("#app");
