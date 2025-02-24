@@ -12,7 +12,7 @@ const router = express.Router();
 router.use("/api/admin", admin)
 router.use("/api/community", community)
 
-router.get('/api/ping', authenticateToken,  async(req, res) => {
+router.get('/api/ping', authenticateTokenWeak,  async(req, res) => {
     res.json({
         status: '200',
         response: "succes"
@@ -62,24 +62,63 @@ router.post('/login', async (req, res) => {
     }
 });
 
-function authenticateToken(req, res, next) {
+export function authenticateToken(req, res, next) {
     const token = req.headers['authorization'];
-    if (!token) return res.status(401).json({ response: 'Kein Token' });
+    if (!token) {
+        return res.status(401).json({ message: 'Access denied. No token provided.' });
+    }
 
-    jwt.verify(token, ACCESS_TOKEN_SECRET, (err, user) => {
-        if (err) return res.status(403).json({ response: 'Scheiß-Token' });
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+        if (err) {
+            return res.status(403).json({ message: 'Invalid token.' });
+        }
         req.user = user;
         next();
     });
 }
 
-function authorizeRole(role) {
-    return (req, res, next) => {
-        if (req.user && req.user.role === role) {
-            next();
-        } else {
-            res.status(403).json({ response: "You don't have enough permissions to use this endpoint."})
+export function authenticateTokenWeak(req, res, next) {
+    const token = req.headers['authorization'];
+
+    if (!token) {
+        return res.status(401).json({ message: 'Access denied. No token provided.' });
+    }
+
+    try {
+        const user = jwt.decode(token);
+
+        if (!user) {
+            return res.status(403).json({ message: 'Invalid token.' });
         }
+
+        req.user = user;
+        next();
+    } catch (err) {
+        return res.status(403).json({ message: 'Invalid token format.' });
+    }
+}
+
+export function authorizeRoleWeak(role) {
+    return (req, res, next) => {
+        const userRole = req.query.role || req.body.role || req.user?.role;
+        if (Array.isArray(userRole)) {
+            if (userRole.includes(role)) {
+                return next();
+            }
+        } else if (userRole === role) {
+            return next();
+        }
+
+        return res.status(403).json({ message: 'Access denied' });
+    };
+}
+
+export function authorizeRole(role) {
+    return (req, res, next) => {
+        if (req.user.role !== role) {
+            return res.status(403).json({ message: 'Access denied. Insufficient permissions.' });
+        }
+        next();
     };
 }
 
@@ -196,6 +235,4 @@ async function visit(post) {
     }
 }
 
-export { authorizeRole };
-export { authenticateToken };
 export default router;

@@ -16,9 +16,9 @@ const db = new sqlite3.Database('./db/database.db', sqlite3.OPEN_READWRITE | sql
 db.serialize(() => {
     db.run(`CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        username TEXT UNIQUE,
-        password TEXT,
-        role TEXT
+        username TEXT UNIQUE NOT NULL,
+        password TEXT NOT NULL,
+        role TEXT CHECK(role IN ('user', 'admin')) NOT NULL
     )`, (err) => {
         if (err) {
             console.error("Error creating table:", err.message);
