@@ -11,12 +11,18 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     apt-get -y --no-install-recommends install \
         nodejs npm python3 socat cowsay imagemagick cron netcat-openbsd
 
+RUN chown ubuntu:ubuntu /app
+
 COPY --chown=ubuntu:ubuntu . .
 
 RUN bash ./box_setup.sh
 
-RUN --mount=type=cache,target=/root/.npm \
+USER ubuntu
+
+RUN --mount=type=cache,target=/ubuntu/.npm \
     npm install
+
+USER root
 
 RUN chmod +x ./docker_start.sh
 

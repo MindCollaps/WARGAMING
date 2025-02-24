@@ -1,0 +1,18 @@
+version: '3'
+services:
+  ctf:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: "ctf"
+    ports:
+      - "5000:5000"
+    volumes:
+      - "./db:/app/db"
+  admin_scheduler:
+    build:
+      context: .
+      dockerfile: .config/Dockerfile
+    container_name: "ctf_admin"
+    volumes:
+      - "./db:/app/db"
