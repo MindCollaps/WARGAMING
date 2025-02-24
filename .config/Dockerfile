@@ -9,6 +9,6 @@ WORKDIR /app
 
 COPY . /app
 RUN --mount=type=cache,target=/root/.npm \
-    npm ci
+    npm install
 
 CMD ["node", "index.js", "admin"]

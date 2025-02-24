@@ -122,22 +122,12 @@ process.argv.forEach(function (val, index, array) {
             db.all(query, async (err, rows) => {
                 if (err) {
                     console.error('Database query error:', err.message);
-                    return res.status(500).json({
-                        status: '500',
-                        response: 'Internal server error.',
-                        error: err.message
-                    });
                 }
                 if (rows.length > 0) {
                     let query = "UPDATE 'posts' SET reported = 0, reported_reason = '' WHERE reported = 1";
                     db.run(query, (err) => {
                         if (err) {
                             console.error('Database query error:', err.message);
-                            return res.status(500).json({
-                                status: '500',
-                                response: 'Internal server error.',
-                                error: err.message
-                            });
                         }
                     });
         
