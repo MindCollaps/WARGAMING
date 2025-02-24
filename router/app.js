@@ -63,7 +63,7 @@ router.post('/login', async (req, res) => {
     }
 });
 
-export function authenticateToken(req, res, next) {
+function authenticateToken(req, res, next) {
     const token = req.headers['authorization'];
     if (!token) return res.status(401).json({ response: 'Kein Token' });
 
