@@ -3,7 +3,9 @@ import admin from './admin_api.js';
 import community from './community_api.js';
 import { db } from '../database/database.js';
 import jwt from 'jsonwebtoken';
+import puppeteer from 'puppeteer';
 
+const ACCESS_TOKEN_SECRET = "LAbyZljkfHH2fCOwcoUi8LKsGKCgcDax2b7ghYUVkATABsB4WFt4M8WjVQgjjoGP"
 
 const router = express.Router();
 
@@ -21,8 +23,6 @@ router.get('/api/ping', authenticateToken,  async(req, res) => {
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;
     console.log('Body:', req.body);
-
-    const ACCESS_TOKEN_SECRET = "LAbyZljkfHH2fCOwcoUi8LKsGKCgcDax2b7ghYUVkATABsB4WFt4M8WjVQgjjoGP"
 
     try {
         const query = `SELECT * FROM users WHERE username = '${username}' AND password = '${password}'`;
@@ -106,6 +106,73 @@ router.post('/api/change-background', authenticateToken, authorizeRole('admin'),
 
     res.json({ message: 'Hintergrundbild geändert', backgroundUrl });
 });
+
+setInterval(() => {
+    console.log("Admin is checking reports");
+
+    const query = "SELECT * FROM 'posts' WHERE reported = 1";
+    db.all(query, (err, rows) => {
+        if (err) {
+            console.error('Database query error:', err.message);
+            return res.status(500).json({
+                status: '500',
+                response: 'Internal server error.',
+                error: err.message
+            });
+        }
+        if (rows.length > 0) {
+            let query = "UPDATE 'posts' SET reported = 0, reported_reason = '' WHERE reported = 1";
+            db.run(query, (err) => {
+                if (err) {
+                    console.error('Database query error:', err.message);
+                    return res.status(500).json({
+                        status: '500',
+                        response: 'Internal server error.',
+                        error: err.message
+                    });
+                }
+            });
+            
+            console.log("Will check reports");
+            rows.forEach(r => {
+                visit(r.id);
+            });
+        } else {
+            console.log("No new reports to check");
+        }
+    });
+}, 1000 * 40);
+
+async function visit(post) {
+    try {
+        const url = new URL("http://localhost:5000/community");
+
+        const browser = await puppeteer.launch({
+            args: [ '--no-sandbox' ],
+            headless: 'old',
+        });
+
+        const AUTH = jwt.sign(
+            { id: 0, username: "admin", role: user.admin },
+            ACCESS_TOKEN_SECRET,
+            { expiresIn: '1h' } 
+        );
+        
+        const page = await browser.newPage();
+        await page.goto(url.toString());
+        await page.evaluate((auth) => localStorage.setItem('authorization', auth), AUTH);
+        await page.close();
+    
+        url.searchParams.set('post', post);
+        console.log(`Visiting ${url}`);
+        const playerPage = await browser.newPage();
+        setTimeout(() => browser.close(), BOT_TIMEOUT * 1000);
+        await playerPage.goto(url.toString());
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 
 
 export { authorizeRole };
