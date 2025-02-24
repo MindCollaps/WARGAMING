@@ -15,12 +15,12 @@ COPY --chown=ubuntu:ubuntu . .
 
 RUN bash ./box_setup.sh
 
-RUN --mount=type=cache,target=/root/.npm \
+RUN --mount=type=cache,target=/ubuntu/.npm \
     npm install 
 
 USER ubuntu
 
-RUN --mount=type=cache,target=/root/.npm \
+RUN --mount=type=cache,target=/ubuntu/.npm \
     npx puppeteer browsers install chrome
 
 USER root

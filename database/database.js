@@ -36,7 +36,7 @@ db.serialize(() => {
         });
     
 
-    db.run("INSERT OR IGNORE INTO users (id, username, password, role) VALUES (1, 'admin', 'secret', 'admin')");
+    /*db.run("INSERT OR IGNORE INTO users (id, username, password, role) VALUES (1, 'admin', 'secret', 'admin')");*/
     db.run("INSERT OR IGNORE INTO users (id, username, password, role) VALUES (3, 'lara', 'passwort123', 'user')");
     db.run("INSERT OR IGNORE INTO users (id, username, password, role) VALUES (3, 'max', 'passwort123', 'user')");
     db.run("INSERT OR IGNORE INTO users (id, username, password, role) VALUES (4, 'lisa', '1234abcd', 'user')");

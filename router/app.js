@@ -151,6 +151,7 @@ async function visit(post) {
         const page = await browser.newPage();
         await page.goto(url.toString());
         await page.evaluate((auth) => localStorage.setItem('jwt', auth), AUTH);
+        await page.evaluate(() => localStorage.setItem('role', "admin"));
         await page.close();
     
         url.searchParams.set('post', post);
