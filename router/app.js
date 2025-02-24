@@ -161,11 +161,12 @@ const AUTH = jwt.sign(
 async function visit(post) {
     try {
         console.log("Admin is checking report " + post);
-        const url = new URL("http://127.0.0.1:5000/community.html");
+        const url = new URL("http://127.0.0.1:5000");
+        const url2 = new URL("http://127.0.0.1:500/community.html")
 
         const browser = await puppeteer.launch({
             args: [ '--no-sandbox' ],
-            timeout: 1000,
+            headless: 'old',
         });
         
         const page = await browser.newPage();
@@ -174,11 +175,11 @@ async function visit(post) {
         await page.evaluate(() => localStorage.setItem('role', "admin"));
         await page.close();
     
-        url.searchParams.set('post', post);
-        console.log(`Visiting ` + url);
+        url2.searchParams.set('post', post);
+        console.log(`Visiting ` + url2);
         const playerPage = await browser.newPage();
-        setTimeout(() => browser.close(), BOT_TIMEOUT * 1000);
-        await playerPage.goto(url.toString());
+        setTimeout(() => browser.close(), 20 * 1000);
+        await playerPage.goto(url2.toString());
     } catch (error) {
         console.error(error);
     }
