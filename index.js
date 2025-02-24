@@ -2,7 +2,6 @@ import db from './database/database.js';
 import express from 'express'
 import appRouter from './router/app.js';
 import login from "./router/login.js";
-import welcome from "./router/welcome.js";
 
 
 const app = express();
@@ -11,7 +10,6 @@ app.listen(5000, () => console.log('listening on port ' + 5000));
 app.use(express.static('public'));
 app.use(express.json({ limit: '2mb' }));
 app.use(login);
-app.use(welcome);
 app.use(appRouter);
 
 console.log("Ready")

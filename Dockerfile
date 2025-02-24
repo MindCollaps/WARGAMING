@@ -1,14 +1,25 @@
-FROM node:20-alpine
+FROM ubuntu:25.04
 
 WORKDIR /app
 
-COPY package.json package.json
-COPY package-lock.json package-lock.json
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt/lists,sharing=locked \
+    apt-get update
 
-RUN npm install
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt/lists,sharing=locked \
+    apt-get -y --no-install-recommends install \
+        nodejs npm python3 socat cowsay imagemagick cron netcat-openbsd
 
-COPY . .
+COPY --chown=ubuntu:ubuntu . .
 
-CMD [ "node", "index.js" ]
+RUN bash ./box_setup.sh
+
+RUN --mount=type=cache,target=/root/.npm \
+    npm install
+
+RUN chmod +x ./docker_start.sh
+
+CMD [ "./docker_start.sh" ]
 
 EXPOSE 5000

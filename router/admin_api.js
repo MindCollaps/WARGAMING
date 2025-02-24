@@ -3,6 +3,7 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 import {exec} from 'child_process'
+import {authenticateToken, authorizeRole} from "../middleware/auth.js";
 
 const router = express.Router();
 
@@ -36,7 +37,7 @@ router.get('/', async (req, res) => {
 });
 
 // /api/admin
-router.post('/api/admin/upload/background', upload.single('image'), async (req, res) => {
+router.post('/api/admin/upload/background', upload.single('image'), authenticateToken, authorizeRole('Admin'), async (req, res) => {
     if (!req.file) {
         return res.status(400).json({
             status: '400',
