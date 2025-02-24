@@ -66,7 +66,7 @@ function authenticateToken(req, res, next) {
     if (!token) return res.status(401).json({ response: 'Kein Token' });
 
     jwt.verify(token, ACCESS_TOKEN_SECRET, (err, user) => {
-        if (err) return res.status(403).json({ response: 'Scheiß-Token' });
+        if (err) return res.status(403).json({ response: 'Ungültiges Token' });
         req.user = user;
         next();
     });
@@ -77,34 +77,10 @@ function authorizeRole(role) {
         if (req.user && req.user.role === role) {
             next();
         } else {
-            res.status(403).json({ response: "Heute nicht."})
+            res.status(403).json({ response: "Zugriff verweigert."})
         }
     };
 }
-
-router.get('/api/welcome', authenticateToken, (req, res) => {
-    const response = {
-        message: `Willkommen, ${req.user.username}!`,
-        posts: [
-            { author: 'user1', content: 'Das ist ein Test-Post.' },
-            { author: 'user2', content: 'Noch ein Dummy-Post.' }
-        ],
-        canChangeBackground: req.user.role === 'admin'
-    };
-
-    res.json(response);
-});
-
-router.post('/api/change-background', authenticateToken, authorizeRole('admin'), (req, res) => {
-    const { backgroundUrl } = req.body;
-
-    if (!backgroundUrl) {
-        return res.status(400).json({ message: 'Kein Hintergrundbild angegeben' });
-    }
-
-    res.json({ message: 'Hintergrundbild geändert', backgroundUrl });
-});
-
 
 export { authorizeRole };
 export { authenticateToken };

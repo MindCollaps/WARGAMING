@@ -133,21 +133,13 @@ header {
     </div>
   
     <div class="content-container">
-      <div id="posts" class="posts">
+      <div class="posts">
         <h2>Beiträge</h2>
         <p>Alle Posts?</p>
       </div>
       
-      <div id="newPost" class="drafts">
+      <div class="drafts">
         <h2>Entwürfe</h2>
-        <textarea rows="3" cols="50"></textarea><br>
-            <button onclick="addPost()">Beitrag posten</button>
-
-        <div id="adminPanel" style="display: none;">
-            <label for="bgUrl">Hintergrundbild-URL:</label>
-            <input type="text" id="bgUrl">
-            <button onclick="changeBackground()">Ändern</button>
-        </div>
         <p>Entwürfe der Posts?</p>
       </div>
     </div>
@@ -250,42 +242,6 @@ document.getElementById('upload-form').addEventListener('submit', async function
         uploadResponseDiv.innerHTML = `<p style="color: red;">Fehler bei der Dateiübertragung</p>`;
     }
 });
-
-function addPost() {
-    const postText = document.querySelector('#newPost textarea').value;
-    if (postText.trim() !== '') {
-        const newPost = document.createElement('p');
-        newPost.innerHTML = `<strong>Ich:</strong> ${postText}`;
-        document.getElementById('posts').appendChild(newPost);
-        document.querySelector('#newPost textarea').value = ''; 
-    }
-}
-
-
-async function changeBackground() {
-    const newBg = document.getElementById('bgUrl').value;
-    const token = localStorage.getItem('token');
-
-    try {
-        const response = await fetch('/api/change-background', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ backgroundUrl: newBg })
-        });
-
-        const result = await response.json();
-        if (response.ok) {
-            document.body.style.backgroundImage = `url('${result.backgroundUrl}')`;
-        } else {
-            alert(result.message);
-        }
-    } catch (error) {
-        console.error('Fehler:', error);
-    }
-}
 
 function logout() {
     localStorage.removeItem("token");
