@@ -74,7 +74,7 @@ db.serialize(() => {
     db.run(`INSERT OR IGNORE INTO files (id, filename, filepath) VALUES (7, 'kugelschreiber.txt', '/uploads/kugelschreiber.txt')`);
     db.run(`INSERT OR IGNORE INTO files (id, filename, filepath) VALUES (8, 'bild.png', '/uploads/bild.png')`);
     db.run(`INSERT OR IGNORE INTO files (id, filename, filepath) VALUES (9, 'hilfeschrei.txt', '/uploads/hilfeschrei.txt')`);
-    db.run(`INSERT OR IGNORE INTO files (id, filename, filepath) VALUES (10, 'lol.txt', '/uploads/lol.txt')`);
+    db.run(`INSERT OR IGNORE INTO files (id, filename, filepath) VALUES (10, 'schatzsuche.txt', '/uploads/schatzsuche.txt')`);
     db.run(`INSERT OR IGNORE INTO files (id, filename, filepath) VALUES (11, 'derschrei.png', '/uploads/derschrei.png')`);
     db.run(`INSERT OR IGNORE INTO files (id, filename, filepath) VALUES (12, 'sketchv2.png', '/uploads/sketchv2.png')`);
 
