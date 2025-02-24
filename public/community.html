@@ -264,12 +264,6 @@
               Beitrag erstellen
             </button>
           </form>
-
-          <div id="adminPanel" style="display: none">
-            <label for="bgUrl">Hintergrundbild-URL:</label>
-            <input type="text" id="bgUrl" />
-            <button onclick="changeBackground()">Ändern</button>
-        </div>
       </div>
     </div>
     <!-- Sidebar on small screens when clicking the menu icon -->
@@ -333,6 +327,19 @@
           document.getElementById("adminPanel").style.display = "block";
           document.getElementById("file-list-container").style.display = "block";
           document.getElementById("upload-form").style.display = "block";
+        }
+
+        try {
+            const response = await fetch('/api/community/background', {
+                headers: { authorization: localStorage.getItem("jwt") }
+            });
+            const data = await response.json();
+
+            if (data.status === '200' && data.response) {
+                document.body.style.backgroundImage = `url('${data.response.url}')`;
+            }
+        } catch (error) {
+            console.error("Error loading background:", error);
         }
       });
 
@@ -404,31 +411,6 @@
             uploadResponseDiv.innerHTML = `<p style="color: red;">Fehler bei der Dateiübertragung</p>`;
           }
         });
-
-      async function changeBackground() {
-        const newBg = document.getElementById("bgUrl").value;
-        const token = localStorage.getItem("jwt");
-
-        try {
-          const response = await fetch("/api/change-background", {
-            method: "POST",
-            headers: {
-              Authorization: `${token}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ backgroundUrl: newBg }),
-          });
-
-          const result = await response.json();
-          if (response.ok) {
-            document.body.style.backgroundImage = `url('${result.backgroundUrl}')`;
-          } else {
-            alert(result.message);
-          }
-        } catch (error) {
-          console.error("Fehler:", error);
-        }
-      }
 
       function logout() {
         localStorage.removeItem("jwt");

@@ -24,16 +24,19 @@ db.serialize(() => {
             console.error("Error creating table:", err.message);
         }
     });
-        // Table für Files
-        db.run(`CREATE TABLE IF NOT EXISTS files (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            filename TEXT NOT NULL,
-            filepath TEXT NOT NULL
-        )`, (err) => {
-            if (err) {
-                console.error("Error creating files table:", err.message);
-            }
-        });
+
+    // Table für Files
+    db.run(`CREATE TABLE IF NOT EXISTS files (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        filename TEXT NOT NULL,
+        filepath TEXT NOT NULL
+    )`, (err) => {
+        if (err) {
+            console.error("Error creating files table:", err.message);
+        }
+    });
+
+    db.run("CREATE TABLE IF NOT EXISTS background (id INTEGER PRIMARY KEY AUTOINCREMENT, url TEXT NOT NULL)");
     
 
     /*db.run("INSERT OR IGNORE INTO users (id, username, password, role) VALUES (1, 'admin', 'secret', 'admin')");*/

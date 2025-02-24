@@ -15,6 +15,33 @@ router.get('/', authenticateToken, async (req, res) => {
     });
 });
 
+router.get('/background', authenticateToken, async (req, res) => {  
+    const query = "SELECT * FROM background LIMIT 1";
+
+    db.get(query, [], (err, row) => {
+        if (err) {
+            console.error('Database query error:', err.message);
+            return res.status(500).json({
+                status: '500',
+                response: 'Internal server error.',
+                error: err.message
+            });
+        }
+
+        if (row) {
+            res.json({
+                status: '200',
+                response: row
+            });
+        } else {
+            res.json({
+                status: '404',
+                response: null
+            });
+        }
+    });
+});
+
 router.post('/posts/report', authenticateToken, async (req, res) => {
 
     const { id, reason } = req.body;

@@ -108,7 +108,7 @@
               if (response.ok) {
                 previewPath.value = result.path;
               } else {
-                throw new Error(result.message);
+                throw new Error(result.message || result.response);
               }
             } catch (error) {
               previewPath.value = "";

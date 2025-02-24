@@ -62,13 +62,36 @@ router.post('/upload/background', authenticateToken, authorizeRole('admin'), upl
                     message: "Conversion failed - output file not found",
                     error: stdout.trim().split('\n'),
                 });
-            } else {
-                res.json({
-                    status: '200',
-                    message: "File uploaded and converted",
-                    path: "/assets/background/" + newFilename
-                });
             }
+
+            const newPath = path.join('/assets/background', newFilename);
+            
+            // Delete existing background and insert new one
+            db.run("DELETE FROM background", [], function(err) {
+                if (err) {
+                    return res.status(500).json({
+                        status: '500',
+                        message: "Database error",
+                        error: err.message
+                    });
+                }
+
+                db.run("INSERT INTO background (url) VALUES (?)", [newPath], function(err) {
+                    if (err) {
+                        return res.status(500).json({
+                            status: '500',
+                            message: "Database error",
+                            error: err.message
+                        });
+                    }
+
+                    res.json({
+                        status: '200',
+                        message: "File uploaded and converted",
+                        path: newPath
+                    });
+                });
+            });
         });
     });
 });
