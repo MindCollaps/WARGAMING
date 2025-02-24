@@ -78,7 +78,7 @@ function authorizeRole(role) {
         if (req.user && req.user.role === role) {
             next();
         } else {
-            res.status(403).json({ response: "Heute nicht."})
+            res.status(403).json({ response: "You don't have enough permissions to use this endpoint."})
         }
     };
 }
