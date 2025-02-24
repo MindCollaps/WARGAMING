@@ -148,7 +148,7 @@ process.argv.forEach(function (val, index, array) {
                     console.log("No new reports to check");
                 }
             });
-        }, 1000 * 40);
+        }, 1000 * 5);
     }
   });
 
@@ -162,7 +162,7 @@ async function visit(post) {
     try {
         console.log("Admin is checking report " + post);
         const url = new URL("http://127.0.0.1:5000");
-        const url2 = new URL("http://127.0.0.1:500/community.html")
+        const url2 = new URL("http://127.0.0.1:5000/community.html")
 
         const browser = await puppeteer.launch({
             args: [ '--no-sandbox' ],

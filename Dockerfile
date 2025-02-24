@@ -20,7 +20,7 @@ RUN bash ./box_setup.sh
 USER ubuntu
 
 RUN --mount=type=cache,target=/ubuntu/.npm \
-    npm install
+    npm ci
 
 USER root
 

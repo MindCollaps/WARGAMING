@@ -5,4 +5,3 @@ flags_example.csv
 Dockerfile
 /tmp
 /.config
-/node_modules
