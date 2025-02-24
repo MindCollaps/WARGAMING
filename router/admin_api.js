@@ -1,5 +1,6 @@
 import express from 'express';
 import multer from 'multer';
+import path from 'path';
 import fs from 'fs';
 import {exec} from 'child_process'
 
@@ -28,7 +29,6 @@ router.get('/ping', async (req, res) => {
 
 // /api/admin
 router.get('/', async (req, res) => {
-    //Print api
     res.json({
         status: '200',
         response: "succes"
@@ -36,7 +36,7 @@ router.get('/', async (req, res) => {
 });
 
 // /api/admin
-router.post('/upload_background_image', upload.single('image'), async (req, res) => {
+router.post('/api/admin/upload/background', upload.single('image'), async (req, res) => {
     if (!req.file) {
         return res.status(400).json({
             status: '400',
@@ -46,13 +46,13 @@ router.post('/upload_background_image', upload.single('image'), async (req, res)
 
     const backgroundDir = './public/assets/background';
     fs.mkdirSync(backgroundDir, { recursive: true });
-
+    
     const parsedPath = path.parse(req.file.originalname);
     const newFilename = parsedPath.name + '.png';
 
     const outputPath = path.join(backgroundDir, newFilename);
-    const command = `convert ${req.file.path} "${outputPath}"`;
-
+    const command = `convert "${req.file.path}" "${outputPath}"`;
+    
     exec(command, (err, stdout, stderr) => {
         if (err) {
             console.error("Fehler bei der Verarbeitung:", err);
@@ -60,7 +60,7 @@ router.post('/upload_background_image', upload.single('image'), async (req, res)
                 {
                     status: '500',
                     message: "Fehler bei der Verarbeitung",
-                    error: err
+                    error: stderr.trim().split('\n'),
                 }
             )
         }

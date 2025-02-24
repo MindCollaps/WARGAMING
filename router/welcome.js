@@ -23,7 +23,7 @@ router.post('/api/change-background', authenticateToken, authorizeRole('Admin'),
         return res.status(400).json({ message: 'Kein Hintergrundbild angegeben' });
     }
 
-    res.json({ message: 'Hintergrundbild geändert', backgroundUrl });
+    res.json({ message: 'Hintergrundbild geändert', backgroundUrl, flag: 'CTF{T0k3n_M4n1pul4t10n_4dm1n_4cc3ss}' });
 });
 
 export default router;

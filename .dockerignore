@@ -3,6 +3,3 @@ README.md
 flags_example.csv
 Dockerfile
 /tmp
-node_modules
-npm-debug.log
-.DS_Store
