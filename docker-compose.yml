@@ -8,11 +8,13 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      - ".:/app:rw"
+      - "./db:/app/db"
+      - "./node_modules/:/app/node_modules"
   admin_scheduler:
     build:
       context: .
       dockerfile: .config/Dockerfile
     container_name: "ctf_admin"
     volumes:
-      - ".:/app:rw"
+      - "./db:/app/db"
+      - "./node_modules/:/app/node_modules"
