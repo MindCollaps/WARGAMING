@@ -1,12 +1,13 @@
 import express from 'express';
 import { db } from '../database/database.js';
+import { authenticateToken } from './app.js';
 
 const router = express.Router();
 
 // Use express.json() middleware to parse JSON bodies
 router.use(express.json());
 
-router.get('/', async (req, res) => {
+router.get('/', authenticateToken, async (req, res) => {
     //Print api
     res.json({
         status: '200',
@@ -14,7 +15,7 @@ router.get('/', async (req, res) => {
     });
 });
 
-router.post('/posts/report', async (req, res) => {
+router.post('/posts/report', authenticateToken, async (req, res) => {
 
     const { id, reason } = req.body;
     let query = "UPDATE 'posts' SET reported = 1, reported_reason = ? WHERE id = ?";
@@ -36,7 +37,7 @@ router.post('/posts/report', async (req, res) => {
 
 });
 
-router.post('/posts/new', async (req, res) => {
+router.post('/posts/new', authenticateToken, async (req, res) => {
     console.log(req.body);
     const { title, content } = req.body;
 
@@ -47,8 +48,8 @@ router.post('/posts/new', async (req, res) => {
         });
     }
 
-    let query = "INSERT INTO 'posts' (title, content, reported) VALUES (?, ?, ?)";
-    db.run(query, [title, content, 0], (err) => {
+    let query = "INSERT INTO 'posts' (title, content, reported, reported_reason) VALUES (?, ?, ?, ?)";
+    db.run(query, [title, content, 0, ""], (err) => {
         if (err) {
             console.error('Database query error:', err.message);
             return res.status(500).json({

@@ -20,7 +20,7 @@ createApp({
                 "content": content.value
             });
 
-            const response = await fetch('/api/f/posts/new', {
+            const response = await fetch('/api/community/posts/new', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

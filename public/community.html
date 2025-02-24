@@ -176,6 +176,10 @@ footer {
                                   <div class="form-group">
                                       <label for="reportReason">Grund der Meldung:</label>
                                       <textarea class="form-control" v-model="reportReason" rows="3"></textarea>
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+                                        <button type="button" class="btn btn-primary" @click="reportPost(post)">Melden</button>
+                                    </div>
                                   </div>
                               </div>
                           </div>
@@ -185,10 +189,18 @@ footer {
           </div>
       </div>
     </div>
-    <div id="newPost" class="drafts">
-        <h2>neuen Beitrag erstellen</h2>
-        <textarea rows="3" cols="25"></textarea><br>
-            <button onclick="addPost()">Beitrag posten</button>
+    <div id="app" class="drafts">
+      <form id="newPostForm" @submit.prevent="createPost">
+        <div class="mb-3">
+            <label for="postTitle" class="form-label">Titel</label>
+            <input type="text" class="form-control" id="postTitle" v-model="title" required>
+        </div>
+        <div class="mb-3">
+            <label for="postContent" class="form-label">Inhalt</label>
+            <textarea class="form-control" id="postContent" v-model="content" rows="3" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Beitrag erstellen</button>
+      </form>
 
         <div id="adminPanel" style="display: none;">
             <label for="bgUrl">Hintergrundbild-URL:</label>
@@ -296,15 +308,6 @@ document.getElementById('upload-form').addEventListener('submit', async function
     }
 });
 
-function addPost() {
-    const postText = document.querySelector('#newPost textarea').value;
-    if (postText.trim() !== '') {
-        const newPost = document.createElement('p');
-        newPost.innerHTML = `<strong>Ich:</strong> ${postText}`;
-        document.getElementById('posts').appendChild(newPost);
-        document.querySelector('#newPost textarea').value = ''; 
-    }
-}
 
 
 async function changeBackground() {
