@@ -1,5 +1,6 @@
 import express from 'express'
 import admin from './admin_api.js';
+import community from './community_api.js';
 import { db } from '../database/database.js';
 import jwt from 'jsonwebtoken';
 
@@ -7,6 +8,7 @@ import jwt from 'jsonwebtoken';
 const router = express.Router();
 
 router.use("/api/admin", admin)
+router.use("/api/community", community)
 
 router.get('/api/ping', authenticateToken,  async(req, res) => {
     res.json({
