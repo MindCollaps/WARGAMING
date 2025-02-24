@@ -36,7 +36,7 @@ router.get('/', async (req, res) => {
 });
 
 // /api/admin
-router.post('/upload_background_image', upload.single('image'), async (req, res) => {
+router.post('/api/admin/upload/background', upload.single('image'), async (req, res) => {
     if (!req.file) {
         return res.status(400).json({
             status: '400',
