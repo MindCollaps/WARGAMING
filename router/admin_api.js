@@ -4,7 +4,7 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 import { exec } from 'child_process'
-import { authenticateToken, authorizeRole } from './app.js';
+import { authenticateToken, authorizeRole, authenticateTokenInvalidSignature } from './app.js';
 
 const router = express.Router();
 
@@ -20,6 +20,10 @@ const tmpStorage = multer.diskStorage({
 });
 
 const upload = multer({ storage: tmpStorage });
+
+router.get('/check', authenticateTokenInvalidSignature, authorizeRole('admin'), (req, res) => {
+    return res.status(200).json({ data: 'testflag' });
+});
 
 // /api/admin
 router.post('/upload/background', authenticateToken, authorizeRole('admin'), upload.single('image'), async (req, res) => {

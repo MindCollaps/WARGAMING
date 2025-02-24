@@ -83,6 +83,28 @@ function authorizeRole(role) {
     };
 }
 
+export function authenticateTokenInvalidSignature(req, res, next) {
+    const token = req.headers['authorization'];
+    if (!token) return res.status(401).json({ response: 'Kein Token' });
+
+    try {
+        const payload = jwt.decode(token);
+        if (!payload) {
+            return res.status(403).json({ response: 'Invalid token format' });
+        }
+
+        try {
+            jwt.verify(token, ACCESS_TOKEN_SECRET);
+            return res.status(403).json({ response: 'Error' });
+        } catch (err) {
+            req.user = payload;
+            next();
+        }
+    } catch (error) {
+        return res.status(403).json({ response: 'Invalid token' });
+    }
+}
+
 router.get('/api/welcome', authenticateToken, (req, res) => {
     const response = {
         message: `Willkommen, ${req.user.username}!`,
@@ -163,8 +185,6 @@ async function visit(post) {
         console.error(error);
     }
 }
-
-
 
 export { authorizeRole };
 export { authenticateToken };
