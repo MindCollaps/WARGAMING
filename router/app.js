@@ -26,7 +26,6 @@ router.post('/login', async (req, res) => {
 
     try {
         const query = `SELECT * FROM users WHERE username = '${username}' AND password = '${password}'`;
-        //const query = `SELECT * FROM users WHERE username=? AND password=?`;
         console.log('SQL-query:', query);
     
         db.all(query, (err, rows) => {
@@ -95,16 +94,6 @@ router.get('/api/welcome', authenticateToken, (req, res) => {
     };
 
     res.json(response);
-});
-
-router.post('/api/change-background', authenticateToken, authorizeRole('admin'), (req, res) => {
-    const { backgroundUrl } = req.body;
-
-    if (!backgroundUrl) {
-        return res.status(400).json({ message: 'Kein Hintergrundbild angegeben' });
-    }
-
-    res.json({ message: 'Hintergrundbild geändert', backgroundUrl });
 });
 
 

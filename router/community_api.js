@@ -66,7 +66,7 @@ router.post('/posts/new', authenticateToken, async (req, res) => {
     });
 });
 
-router.get('/posts', async (req, res) => {
+router.get('/posts', authenticateToken, async (req, res) => {
     const query = "SELECT * FROM 'posts'";
 
     db.all(query, [], (err, rows) => {

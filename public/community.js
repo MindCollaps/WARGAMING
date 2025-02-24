@@ -28,7 +28,15 @@ const App = createApp({
         }
 
         async function getPosts() {
-            const response = await fetch('/api/community/posts');
+            const response = await fetch(
+                '/api/community/posts', 
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'authorization': localStorage.getItem("jwt"),
+                    }
+                }
+            );
             const data = await response.json();
             posts.value = data.response;
         }

@@ -4,6 +4,7 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 import { exec } from 'child_process'
+import { authenticateToken, authorizeRole } from './app.js';
 
 const router = express.Router();
 
@@ -20,20 +21,8 @@ const tmpStorage = multer.diskStorage({
 
 const upload = multer({ storage: tmpStorage });
 
-router.get('/ping', async (req, res) => {
-    res.json({ status: '200', response: "success" });
-});
-
 // /api/admin
-router.get('/', async (req, res) => {
-    res.json({
-        status: '200',
-        response: "succes"
-    });
-});
-
-// /api/admin
-router.post('/api/admin/upload/background', upload.single('image'), async (req, res) => {
+router.post('/upload/background', authenticateToken, authorizeRole('admin'), upload.single('image'), async (req, res) => {
     if (!req.file) {
         return res.status(400).json({
             status: '400',
@@ -84,7 +73,7 @@ router.post('/api/admin/upload/background', upload.single('image'), async (req, 
     });
 });
 
-router.post('/upload', upload.single('file'), async (req, res) => {
+router.post('/upload', upload.single('file'), authenticateToken, authorizeRole('admin'), async (req, res) => {
     if (!req.file) {
         return res.status(400).json({ status: '400', response: "No file uploaded" });
     }
@@ -104,7 +93,7 @@ router.post('/upload', upload.single('file'), async (req, res) => {
     });
 });
 
-router.use('/uploads', express.static(path.join(process.cwd(), 'public/uploads')));
+router.use('/uploads', authenticateToken, authorizeRole('admin'), express.static(path.join(process.cwd(), 'public/uploads')));
 
 router.get('/file/:id', (req, res) => {
     const fileId = req.params.id;
@@ -119,7 +108,7 @@ router.get('/file/:id', (req, res) => {
     });
 });
 
-router.get('/search', (req, res) => {
+router.get('/search', authenticateToken, authorizeRole('admin'), (req, res) => {
     const searchTerm = req.query.q;
 
     const query = `SELECT * FROM files WHERE filename LIKE '%${searchTerm}%'`;
@@ -140,6 +129,5 @@ router.get('/search', (req, res) => {
         res.json(rows);
     });
 });
-
 
 export default router;

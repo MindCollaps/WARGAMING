@@ -39,7 +39,7 @@ App.component('post', {
             });
 
             if (response.ok) {
-                alert('Post reported successfully to an admin.');
+                alert('Post reported successfully to an admin. Check back soon for updates.');
             }
         }
     },
