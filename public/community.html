@@ -37,6 +37,13 @@ header {
 .w3-top{
   position: relative;
 }
+footer {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
 .container {
   display: flex;
   flex-wrap: wrap;
@@ -171,17 +178,16 @@ header {
                                       <textarea class="form-control" v-model="reportReason" rows="3"></textarea>
                                   </div>
                               </div>
-             
                           </div>
                       </div>
                   </div>
               </div>
+          </div>
       </div>
-      </div>
-      
-      <div id="newPost" class="drafts">
-        <h2>Entwürfe</h2>
-        <textarea rows="3" cols="50"></textarea><br>
+    </div>
+    <div id="newPost" class="drafts">
+        <h2>neuen Beitrag erstellen</h2>
+        <textarea rows="3" cols="25"></textarea><br>
             <button onclick="addPost()">Beitrag posten</button>
 
         <div id="adminPanel" style="display: none;">
@@ -189,9 +195,7 @@ header {
             <input type="text" id="bgUrl">
             <button onclick="changeBackground()">Ändern</button>
         </div>
-        <p>Entwürfe der Posts?</p>
       </div>
-    </div>
 </div>  
 <!-- Sidebar on small screens when clicking the menu icon -->
 <nav class="w3-sidebar w3-bar-block w3-black w3-card w3-animate-left w3-hide-medium w3-hide-large" style="display:none" id="mySidebar">
