@@ -21,9 +21,9 @@ def execute_command(user_input):
         return "Command not allowed"
     
     if cmd.lower() == 'clean_tmp':
-        return subprocess.run(f"rm -rf /tmp/{' '.join(args)}", shell=True, capture_output=True, text=True).stdout
+        return subprocess.run(f"rm -rf /tmp/", shell=True, capture_output=True, text=True).stdout
     elif cmd.lower() == 'list_tmp':
-        return subprocess.run(f"ls -l /tmp/{' '.join(args)}", shell=True, capture_output=True, text=True).stdout
+        return subprocess.run(f"ls -l /tmp/", shell=True, capture_output=True, text=True).stdout
     elif cmd.lower() == 'cow':
         sanitized_args = ' '.join([arg.replace(';', '').replace('&', '') for arg in args])
         return subprocess.run(f"/usr/games/cowsay {sanitized_args}", shell=True, capture_output=True, text=True).stdout
