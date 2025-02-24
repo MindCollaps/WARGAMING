@@ -86,13 +86,10 @@
             previewPath.value = "";
 
             try {
-              const response = await fetch(
-                "/api/admin/upload_background_image",
-                {
-                  method: "POST",
-                  body: formData,
-                }
-              );
+              const response = await fetch("/api/admin/upload/background", {
+                method: "POST",
+                body: formData,
+              });
 
               const result = await response.json();
 
