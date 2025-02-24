@@ -47,8 +47,8 @@ router.post('/posts/new', async (req, res) => {
         });
     }
 
-    let query = "INSERT INTO 'posts' (title, content, reported) VALUES (?, ?, ?)";
-    db.run(query, [title, content, 0], (err) => {
+    let query = "INSERT INTO 'posts' (title, content, reported, reported_reason) VALUES (?, ?, ?, ?)";
+    db.run(query, [title, content, 0, ""], (err) => {
         if (err) {
             console.error('Database query error:', err.message);
             return res.status(500).json({
