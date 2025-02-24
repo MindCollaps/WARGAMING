@@ -9,3 +9,10 @@ services:
       - "5000:5000"
     volumes:
       - ".:/app:rw"
+  admin_scheduler:
+    build:
+      context: .
+      dockerfile: .config/Dockerfile
+    container_name: "ctf_admin"
+    volumes:
+      - ".:/app:rw"

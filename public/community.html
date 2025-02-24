@@ -226,45 +226,37 @@
         </form>
       </div>
 
-      <div class="content-container" id="app">
-        <div v-if="!showPost" id="posts" class="posts">
-          <h2>Beiträge</h2>
-          <div v-if="posts.length > 0">
-            <div class="card mb-3" v-for="post in posts" :key="post.id">
-              <post :post />
-            </div>
+    <div class="content-container" id="app">
+      <div v-if="!showPost" id="posts" class="posts">
+        <h2>Beiträge</h2>
+        <div v-if="posts.length > 0">
+          <div class="card mb-3" v-for="post in posts" :key="post.id">
+            <post :post/>
           </div>
         </div>
-        <div v-else class="posts">
-          <h2>Beitrag</h2>
-          <post :post="shownPost" />
+      </div>
+      <div v-else class="posts">
+        <h2>Beitrag</h2>
+        <post :post="shownPost" :single/>
+      </div>
+      <div v-if="!showPost" id="app" class="drafts">
+        <form id="newPostForm" @submit.prevent="createPost">
+          <div class="mb-3">
+            <label for="postTitle" class="form-label">Titel</label>
+            <input type="text" class="form-control" id="postTitle" v-model="title" required>
+          </div>
+          <div class="mb-3">
+            <label for="postContent" class="form-label">Inhalt</label>
+            <textarea class="form-control" id="postContent" v-model="content" rows="3" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Beitrag erstellen</button>
+        </form>
+
+        <div id="adminPanel" style="display: none;">
+          <label for="bgUrl">Hintergrundbild-URL:</label>
+          <input type="text" id="bgUrl">
+          <button onclick="changeBackground()">Ändern</button>
         </div>
-        <div v-if="!showPost" id="app" class="drafts">
-          <form id="newPostForm" @submit.prevent="createPost">
-            <div class="mb-3">
-              <label for="postTitle" class="form-label">Titel</label>
-              <input
-                type="text"
-                class="form-control"
-                id="postTitle"
-                v-model="title"
-                required
-              />
-            </div>
-            <div class="mb-3">
-              <label for="postContent" class="form-label">Inhalt</label>
-              <textarea
-                class="form-control"
-                id="postContent"
-                v-model="content"
-                rows="3"
-                required
-              ></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">
-              Beitrag erstellen
-            </button>
-          </form>
       </div>
     </div>
     <!-- Sidebar on small screens when clicking the menu icon -->
