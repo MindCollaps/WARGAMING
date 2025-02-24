@@ -9,6 +9,7 @@ services:
       - "5000:5000"
     volumes:
       - "./db:/app/db"
+      - "./node_modules/:/app/node_modules"
   admin_scheduler:
     build:
       context: .
@@ -16,3 +17,4 @@ services:
     container_name: "ctf_admin"
     volumes:
       - "./db:/app/db"
+      - "./node_modules/:/app/node_modules"

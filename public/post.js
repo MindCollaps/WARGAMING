@@ -1,14 +1,17 @@
 App.component('post', {
     props: {
         post: {
-            required: true
-        }
+            required: true,
+        },
+        single: {
+            required: false,
+            default: false,
+        },
     },
     data() {
         return {
             reportReason: '',
             admin: localStorage.getItem("role") === "admin",
-            single: false,
         };
     },
     mounted() {

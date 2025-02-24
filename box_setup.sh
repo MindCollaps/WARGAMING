@@ -1,5 +1,7 @@
 #!/bin/sh
 
+#!/bin/bash
+
 hide_flag() {
     local challenge_name="$1"
     local destination="$2"
