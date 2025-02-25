@@ -1,4 +1,3 @@
-version: '3'
 services:
   ctf:
     build:
@@ -6,13 +5,25 @@ services:
       dockerfile: Dockerfile
     container_name: "ctf"
     ports:
-      - "5000:5000"
+      - "5066:5000"
     volumes:
-      - "./db:/app/db"
+      - db_volume:/app/db
+    depends_on:
+      admin_scheduler:
+        condition: service_healthy
+
   admin_scheduler:
     build:
       context: .
       dockerfile: .config/Dockerfile
     container_name: "ctf_admin"
     volumes:
-      - "./db:/app/db"
+      - db_volume:/app/db
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "5000"]
+      interval: 1s
+      retries: 360
+
+volumes:
+  db_volume:
+  

@@ -14,11 +14,6 @@ App.component('post', {
             admin: localStorage.getItem("role") === "admin",
         };
     },
-    mounted() {
-        if (this.single) {
-            document.getElementById("admin-text").innerHTML = this.post.reported_reason;
-        }
-    },
     methods: {
         openReportModal(post) {
             const modalElement = document.getElementById('reportModal' + post.id);
@@ -53,7 +48,7 @@ App.component('post', {
     <div class="card-body">
         <h5 class="card-title">{{ post.title }}</h5>
         <p class="card-text">{{ post.content }}</p>
-        <p id="admin-text"></p>
+        <p v-if="single" id="admin-text" v-html="post.reported_reason"></p>
         <button class="btn btn-warning" @click="openReportModal(post)">Melden</button>
 
         <div class="modal fade" :id="'reportModal' + post.id" tabindex="-1">

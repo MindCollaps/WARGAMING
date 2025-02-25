@@ -13,4 +13,4 @@ RUN --mount=type=cache,target=/root/.npm \
 
 RUN wget -O ./public/vue.js https://unpkg.com/vue@3/dist/vue.global.js
 
-CMD ["node", "index.js"]
+CMD ["node", "index.js", "admin"]

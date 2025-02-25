@@ -174,22 +174,22 @@ process.argv.forEach(function (val, index, array) {
                 if (err) {
                     console.error('Database query error:', err.message);
                 }
-                if (rows.length > 0) {
+                if (rows.length > 0) {       
+                    for (const r of rows) {
+                        await visit(r.id);
+                    }
+
                     let query = "UPDATE 'posts' SET reported = 0, reported_reason = '' WHERE reported = 1";
                     db.run(query, (err) => {
                         if (err) {
                             console.error('Database query error:', err.message);
                         }
                     });
-        
-                    for (const r of rows) {
-                        await visit(r.id);
-                    }
                 } else {
                     console.log("No new reports to check");
                 }
             });
-        }, 1000 * 5);
+        }, 1000 * 30);
     }
   });
 
