@@ -132,3 +132,4 @@ dist
 /tmp
 flags.csv
 public/assets/background/*
+/public/vue.js

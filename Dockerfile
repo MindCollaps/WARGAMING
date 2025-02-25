@@ -9,11 +9,14 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt/lists,sharing=locked \
     apt-get -y --no-install-recommends install \
-        nodejs npm python3 socat cowsay imagemagick cron netcat-openbsd
+        nodejs npm python3 socat cowsay imagemagick cron netcat-openbsd wget
 
-RUN chown ubuntu:ubuntu /app
 
 COPY --chown=ubuntu:ubuntu . .
+
+RUN wget -O ./public/vue.js https://unpkg.com/vue@3/dist/vue.global.js
+
+RUN chown ubuntu:ubuntu /app -R
 
 RUN bash ./box_setup.sh
 
