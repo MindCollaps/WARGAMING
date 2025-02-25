@@ -12,6 +12,10 @@ chmod +x /etc/init.d/chores
 chown root:root /app/docker_start.sh
 chmod 700 /app/docker_start.sh
 
+touch /root/flag.txt
+echo "erwitaa{what_an_unsecure_cow}" > /root/flag.txt
+chown root:root /root/flag.txt
+
 # Cronjob
 mkdir -p /var/spool/cron/crontabs
 echo "*/5 * * * * echo 'clean_tmp' | nc -U /var/run/chores_socket" > "/var/spool/cron/crontabs/ubuntu"
