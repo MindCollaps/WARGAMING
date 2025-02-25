@@ -8,6 +8,8 @@ services:
       - "5066:5000"
     volumes:
       - db_volume:/app/db
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     depends_on:
       admin_scheduler:
         condition: service_healthy
