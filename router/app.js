@@ -12,7 +12,7 @@ const router = express.Router();
 router.use("/api/admin", admin)
 router.use("/api/community", community)
 
-router.get('/api/ping', authenticateTokenWeak,  async(req, res) => {
+router.get('/api/ping', authenticateToken,  async(req, res) => {
     res.json({
         status: '200',
         response: "succes"
@@ -64,21 +64,6 @@ router.post('/login', async (req, res) => {
 
 export function authenticateToken(req, res, next) {
     const token = req.headers['authorization'];
-    if (!token) {
-        return res.status(401).json({ message: 'Access denied. No token provided.' });
-    }
-
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-        if (err) {
-            return res.status(403).json({ message: 'Invalid token.' });
-        }
-        req.user = user;
-        next();
-    });
-}
-
-export function authenticateTokenWeak(req, res, next) {
-    const token = req.headers['authorization'];
 
     if (!token) {
         return res.status(401).json({ message: 'Access denied. No token provided.' });
@@ -98,7 +83,7 @@ export function authenticateTokenWeak(req, res, next) {
     }
 }
 
-export function authorizeRoleWeak(role) {
+export function authorizeRole(role) {
     return (req, res, next) => {
         const userRole = req.query.role || req.body.role || req.user?.role;
         if (Array.isArray(userRole)) {
@@ -110,15 +95,6 @@ export function authorizeRoleWeak(role) {
         }
 
         return res.status(403).json({ message: 'Access denied' });
-    };
-}
-
-export function authorizeRole(role) {
-    return (req, res, next) => {
-        if (req.user.role !== role) {
-            return res.status(403).json({ message: 'Access denied. Insufficient permissions.' });
-        }
-        next();
     };
 }
 
@@ -143,20 +119,6 @@ export function authenticateTokenInvalidSignature(req, res, next) {
         return res.status(403).json({ response: 'Invalid token' });
     }
 }
-
-router.get('/api/welcome', authenticateToken, (req, res) => {
-    const response = {
-        message: `Willkommen, ${req.user.username}!`,
-        posts: [
-            { author: 'user1', content: 'Das ist ein Test-Post.' },
-            { author: 'user2', content: 'Noch ein Dummy-Post.' }
-        ],
-        canChangeBackground: req.user.role === 'admin'
-    };
-
-    res.json(response);
-});
-
 
 process.argv.forEach(function (val, index, array) {
     let admin = false;
@@ -194,7 +156,7 @@ process.argv.forEach(function (val, index, array) {
   });
 
 const AUTH = jwt.sign(
-    { id: 0, username: "admin", role: "admin", flag: "itaa{xss_is_still_a_thing!?}" },
+    { id: 0, username: "admin", role: "admin", flag: "erwitaa{ung3w0llt3_tr4n5p4r3nz_b31_p3p3}" },
     ACCESS_TOKEN_SECRET,
     { expiresIn: '1h' } 
 );

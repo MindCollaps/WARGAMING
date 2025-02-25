@@ -1,6 +1,7 @@
 npm-debug.log
 .DS_Store
 README.md
+flags.csv
 flags_example.csv
 Dockerfile
 /tmp

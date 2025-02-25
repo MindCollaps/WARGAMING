@@ -4,7 +4,7 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 import { exec } from 'child_process'
-import { authenticateTokenInvalidSignature, authenticateTokenWeak, authorizeRoleWeak } from './app.js';
+import { authenticateTokenInvalidSignature, authenticateToken, authorizeRole } from './app.js';
 
 const router = express.Router();
 
@@ -21,12 +21,12 @@ const tmpStorage = multer.diskStorage({
 
 const upload = multer({ storage: tmpStorage });
 
-router.get('/check', authenticateTokenInvalidSignature, authorizeRoleWeak('admin'), (req, res) => {
-    return res.status(200).json({ data: 'testflag' });
+router.get('/check', authenticateTokenInvalidSignature, authorizeRole('admin'), (req, res) => {
+    return res.status(200).json({ data: 'erwitaa{R0L3_M4st3r_And_T0k3n_Tr1ck3r}' });
 });
 
 // /api/admin
-router.post('/upload/background', authenticateTokenWeak, authorizeRoleWeak('admin'), upload.single('image'), async (req, res) => {
+router.post('/upload/background', authenticateToken, authorizeRole('admin'), upload.single('image'), async (req, res) => {
     if (!req.file) {
         return res.status(400).json({
             status: '400',
@@ -100,7 +100,7 @@ router.post('/upload/background', authenticateTokenWeak, authorizeRoleWeak('admi
     });
 });
 
-router.post('/upload', upload.single('file'), authenticateTokenWeak, authorizeRoleWeak('admin'), async (req, res) => {
+router.post('/upload', upload.single('file'), authenticateToken, authorizeRole('admin'), async (req, res) => {
     if (!req.file) {
         return res.status(400).json({ status: '400', response: "No file uploaded" });
     }
@@ -120,7 +120,7 @@ router.post('/upload', upload.single('file'), authenticateTokenWeak, authorizeRo
     });
 });
 
-router.use('/uploads', authenticateTokenWeak, authorizeRoleWeak('admin'), express.static(path.join(process.cwd(), 'public/uploads')));
+router.use('/uploads', authenticateToken, authorizeRole('admin'), express.static(path.join(process.cwd(), 'public/uploads')));
 
 router.get('/file/:id', (req, res) => {
     const fileId = req.params.id;
@@ -135,7 +135,7 @@ router.get('/file/:id', (req, res) => {
     });
 });
 
-router.get('/search', authenticateTokenWeak, authorizeRoleWeak('admin'), (req, res) => {
+router.get('/search', authenticateToken, authorizeRole('admin'), (req, res) => {
     const searchTerm = req.query.q;
 
     const query = `SELECT * FROM files WHERE filename LIKE '%${searchTerm}%'`;

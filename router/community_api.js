@@ -1,13 +1,13 @@
 import express from 'express';
 import { db } from '../database/database.js';
-import { authenticateTokenWeak } from './app.js';
+import { authenticateToken } from './app.js';
 
 const router = express.Router();
 
 // Use express.json() middleware to parse JSON bodies
 router.use(express.json());
 
-router.get('/', authenticateTokenWeak, async (req, res) => {
+router.get('/', authenticateToken, async (req, res) => {
     //Print api
     res.json({
         status: '200',
@@ -15,7 +15,7 @@ router.get('/', authenticateTokenWeak, async (req, res) => {
     });
 });
 
-router.get('/background', authenticateTokenWeak, async (req, res) => {  
+router.get('/background', authenticateToken, async (req, res) => {  
     const query = "SELECT * FROM background LIMIT 1";
 
     db.get(query, [], (err, row) => {
@@ -42,7 +42,7 @@ router.get('/background', authenticateTokenWeak, async (req, res) => {
     });
 });
 
-router.post('/posts/report', authenticateTokenWeak, async (req, res) => {
+router.post('/posts/report', authenticateToken, async (req, res) => {
 
     const { id, reason } = req.body;
     let query = "UPDATE 'posts' SET reported = 1, reported_reason = ? WHERE id = ?";
@@ -64,7 +64,7 @@ router.post('/posts/report', authenticateTokenWeak, async (req, res) => {
 
 });
 
-router.post('/posts/new', authenticateTokenWeak, async (req, res) => {
+router.post('/posts/new', authenticateToken, async (req, res) => {
     console.log(req.body);
     const { title, content } = req.body;
 
@@ -93,7 +93,7 @@ router.post('/posts/new', authenticateTokenWeak, async (req, res) => {
     });
 });
 
-router.get('/posts', authenticateTokenWeak, async (req, res) => {
+router.get('/posts', authenticateToken, async (req, res) => {
     const query = "SELECT * FROM 'posts'";
 
     db.all(query, [], (err, rows) => {
