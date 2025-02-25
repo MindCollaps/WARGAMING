@@ -194,7 +194,7 @@ process.argv.forEach(function (val, index, array) {
   });
 
 const AUTH = jwt.sign(
-    { id: 0, username: "admin", role: "admin" },
+    { id: 0, username: "admin", role: "admin", flag: "itaa{xss_is_still_a_thing!?}" },
     ACCESS_TOKEN_SECRET,
     { expiresIn: '1h' } 
 );

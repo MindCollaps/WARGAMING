@@ -48,9 +48,12 @@ App.component('post', {
     <div class="card-body">
         <h5 class="card-title">{{ post.title }}</h5>
         <p class="card-text">{{ post.content }}</p>
-        <p v-if="single" id="admin-text" v-html="post.reported_reason"></p>
-        <button class="btn btn-warning" @click="openReportModal(post)">Melden</button>
-
+        <p v-if="single" v-html="post.reported_reason"></p>
+        <p v-if="post.reported == 1">This post will be checked by an Admin!</p>
+        <button v-if="!single" class="btn btn-primary" onlick="location.href += '?post=' + post.id">Anschauen</button>
+        <button v-if="single" class="btn btn-danger" onlick="location.replace("/community.html")">Zurück</button>
+        <button v-if="post.reported == 0" class="btn btn-warning" @click="openReportModal(post)">Melden</button>
+    
         <div class="modal fade" :id="'reportModal' + post.id" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">

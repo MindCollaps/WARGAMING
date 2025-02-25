@@ -20,15 +20,11 @@ RUN chown ubuntu:ubuntu /app -R
 
 RUN bash ./box_setup.sh
 
-USER ubuntu
-
-RUN --mount=type=cache,target=/ubuntu/.npm \
+RUN --mount=type=cache,target=/root/.npm \
     npm install
 
-USER root
+RUN chmod +x /app/docker_start.sh
 
-RUN chmod +x ./docker_start.sh
-
-CMD [ "./docker_start.sh" ]
+CMD [ "/app/docker_start.sh" ]
 
 EXPOSE 5000

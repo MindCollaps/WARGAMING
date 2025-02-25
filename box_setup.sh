@@ -4,13 +4,13 @@
 
 echo setting up box...
 
-mv ./files/chores_socket.py /usr/local/sbin/
+mv /app/files/chores_socket.py /usr/local/sbin/
 mkdir -p /etc/init.d
-mv ./files/chores /etc/init.d/
+mv /app/files/chores /etc/init.d/
 chmod +x /etc/init.d/chores
 
-chown root:root ./docker_start.sh
-chmod 700 ./docker_start.sh
+chown root:root /app/docker_start.sh
+chmod 700 /app/docker_start.sh
 
 # Cronjob
 mkdir -p /var/spool/cron/crontabs
