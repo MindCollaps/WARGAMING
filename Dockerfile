@@ -20,7 +20,7 @@ RUN chown ubuntu:ubuntu /app -R
 
 RUN bash ./box_setup.sh
 
-RUN --mount=type=cache,target=/root/.npm \
+RUN --mount=type=cache,target=/usr/share/node_modules \
     npm install
 
 RUN chmod +x /app/docker_start.sh
